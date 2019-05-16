@@ -28,7 +28,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
 
 html_title = u'Google 開源專案風格指南'
 htmlhelp_basename = 'google-styleguide'
-html_add_permalinks = None
+html_add_permalinks = ""
 
 file_insertion_enabled = False
 latex_documents = [

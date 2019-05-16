@@ -29,7 +29,7 @@
 
     - 使用 Microsoft Visual C++ 進行編譯時, 將警告級別設置為 3 或更高, 並將所有 warnings 當作 errors 處理.
 
-    - 不要使用 ``#pragma once``; 而應該使用 Google 的標頭檔保護規則. 標頭檔保護的路徑應該相對於專案根目錄 (Yang.Y 注: 如 ``#ifndef SRC_DIR_BAR_H_``, 參考 :ref:`#define 保護 <define_guard>` 一節).
+    - 不要使用 ``#pragma once``; 而應該使用 Google 的標頭檔保護規則. 標頭檔保護的路徑應該相對於專案根目錄 (Yang.Y 注: 如 ``#ifndef SRC_DIR_BAR_H_``, 參考 :ref:`#define 保護 <define-guard>` 一節).
 
     - 除非萬不得已, 不要使用任何非標準的擴展, 如 ``#pragma`` 和 ``__declspec``. 允許使用 ``__declspec(dllimport)`` 和 ``__declspec(dllexport)``; 但你必須通過巨集來使用, 比如 ``DLLIMPORT`` 和 ``DLLEXPORT``, 這樣其他人在分享使用這些程式碼時很容易就去掉這些擴展.
 

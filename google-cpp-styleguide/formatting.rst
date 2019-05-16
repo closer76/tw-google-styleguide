@@ -235,7 +235,7 @@
                             y1, y2, y3,
                             z1, z2, z3);
 
-.. _braced-initializer-list-format
+.. _braced-initializer-list-format:
 
 8.7. 列表初始化格式
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -287,7 +287,7 @@
 
     .. code-block:: c++
 
-        if (condition) {  圓括號裡沒空格緊鄰。
+        if (condition) {  // 圓括號裡沒空格緊鄰。
           ...  // 2 空格縮排。
         } else {  // else 與 if 的右括號同一行。
           ...
