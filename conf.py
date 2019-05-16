@@ -12,7 +12,7 @@ source_suffix = '.rst'
 master_doc = 'contents'
 language = 'en_US'
 exclude_patterns = ['_build']
-extensions = ['sphinx.ext.pngmath']
+extensions = ['sphinx.ext.imgmath']
 pygments_style = 'sphinx'
 
 # on_rtd is whether we are on readthedocs.org
