@@ -11,6 +11,7 @@ C++ 風格指南 - 內容目錄
 .. toctree::
 
    index
+   version
    headers
    scoping
    classes
