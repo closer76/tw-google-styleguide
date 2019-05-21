@@ -1,4 +1,4 @@
-1. 標頭檔 (Header Files)
+標頭檔 (Header Files)
 ------------------------
 
 通常每一個 ``.cc`` 檔都有一個對應的 ``.h`` 檔。也有一些常見例外，如單元測試程式碼和內部只有 ``main()`` 函式的 ``.cc`` 檔。
@@ -9,7 +9,7 @@
 
 .. _self-contained headers:
 
-1.1. 自我完整 (Self-contained) 的標頭檔
+自我完整 (Self-contained) 的標頭檔
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
@@ -26,7 +26,7 @@
 
 .. _define-guard:
 
-1.2. #define 保護 (#define Guard)
+#define 保護 (#define Guard)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
@@ -44,7 +44,7 @@
 
 .. _forward-declarations:
 
-1.3. 前置宣告 (Forward Declaration)
+前置宣告 (Forward Declaration)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
@@ -94,7 +94,7 @@
 
 .. _inline-functions:
 
-1.4. 行內函式 (Inline Functions)
+行內函式 (Inline Functions)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
@@ -123,7 +123,7 @@
 
 .. _name-and-order-of-includes:
 
-1.5. ``#include`` 的路徑及順序
+``#include`` 的路徑及順序
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
