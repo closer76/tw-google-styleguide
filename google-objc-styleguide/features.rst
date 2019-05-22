@@ -121,7 +121,7 @@ Ojbective-C 的類別可以用來將一個大的 ``@implementation`` 拆分成�
 基於你所包括的頭文件的編程語言，選擇使用 ``#import`` 或是 ``#include``：
 
 * 當包含一個使用 Objective-C、Objective-C++ 的頭文件時，使用 ``#import`` 。
-* 當包含一個使用標準 C、C++ 頭文件時，使用 ``#include``。頭文件應該使用 `#define 保護 <http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=The__define_Guard#The__define_Guard>`_。
+* 當包含一個使用標準 C、C++ 頭文件時，使用 ``#include``。頭文件應該使用 :ref:`#define 保護 <define-guard>`。
 
 一些 Ojbective-C 的頭文件缺少 ``#define`` 保護，需要使用 ``#import`` 的方式包含。由於 Objective-C 的頭文件只會被 Objective-C 的源文件及頭文件包含，廣泛地使用 ``#import`` 是可以的。
 
@@ -359,15 +359,15 @@ Ojbective-C 中把 ``BOOL`` 定義成無符號字符型，這意味著 ``BOOL`` 
 
     .. code-block:: objc
 
-    - (BOOL)isBold {
-      return ([self fontTraits] & NSFontBoldTrait) ? YES : NO;
-    }
-    - (BOOL)isValid {
-      return [self stringValue] != nil;
-    }
-    - (BOOL)isEnabled {
-      return [self isValid] && [self isBold];
-    }
+        - (BOOL)isBold {
+          return ([self fontTraits] & NSFontBoldTrait) ? YES : NO;
+        }
+        - (BOOL)isValid {
+          return [self stringValue] != nil;
+        }
+        - (BOOL)isEnabled {
+          return [self isValid] && [self isBold];
+        }
 
 
 同樣，不要直接比較 ``YES/NO`` 和 ``BOOL`` 變量。不僅僅因為影響可讀性，更重要的是結果可能與你想的不同。

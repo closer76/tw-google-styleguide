@@ -11,7 +11,11 @@ release = u''
 source_suffix = '.rst'
 master_doc = 'contents'
 language = 'en_US'
-exclude_patterns = ['_build']
+exclude_patterns = [
+    '_build',
+    'README.rst',
+    'google-html-css-styleguide/*.rst',
+    'google-javascript-styleguide/*.rst']
 extensions = ['sphinx.ext.imgmath']
 pygments_style = 'sphinx'
 
