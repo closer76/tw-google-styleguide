@@ -75,6 +75,8 @@
         // enums
         enum UrlTableErrors { ...
 
+.. _variable-names:
+
 6.4. 變數命名
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -119,7 +121,7 @@
                 int num_entries;
             }
 
-    結構體與類的討論參考 :ref:`結構體 vs. 類 <structs_vs_classes>` 一節.
+    結構體與類的討論參考 :ref:`結構體 vs. 類 <structs-vs-classes>` 一節.
 
 全域變數:
 
