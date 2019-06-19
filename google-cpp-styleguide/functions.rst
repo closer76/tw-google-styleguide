@@ -73,7 +73,7 @@ Reference 引數
 
     請牢記：大部份的情況下，輸入用參數都必須指定為 ``const T&``。使用 ``const T*`` 會傳達給閱讀程式碼的人不太一樣的意義。所以若是你選擇了 ``const T*`` 而非 ``const T&``，你得有足夠的理由；否則，閱讀程式碼的人可能會以為有什麼特別的意圖，試著去尋找不存在的解釋，徒增無謂的困擾。
 
-.. _function_overloading:
+.. _function-overloading:
 
 函式多載化 (Function Overloading)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
