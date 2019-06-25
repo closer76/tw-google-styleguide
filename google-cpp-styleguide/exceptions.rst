@@ -25,7 +25,7 @@
 
     - 不要使用匈牙利命名法 (比如把整數變數命名成 ``iNum``). 使用 Google 命名約定, 包括對源文件使用 ``.cc`` 擴展名.
 
-    - Windows 定義了很多原生類型的同義詞 (YuleFox 注: 這一點, 我也很反感), 如 ``DWORD``, ``HANDLE`` 等等. 在呼叫 Windows API 時這是完全可以接受甚至鼓勵的. 但還是盡量使用原有的 C++ 類型, 例如, 使用 ``const TCHAR *`` 而不是 ``LPCTSTR``.
+    - Windows 定義了很多原生類型的同義詞 (YuleFox 注: 這一點, 我也很反感), 如 ``DWORD``, ``HANDLE`` 等等. 在呼叫 Windows API 時這是完全可以接受甚至鼓勵的. 但還是儘量使用原有的 C++ 類型, 例如, 使用 ``const TCHAR *`` 而不是 ``LPCTSTR``.
 
     - 使用 Microsoft Visual C++ 進行編譯時, 將警告級別設置為 3 或更高, 並將所有 warnings 當作 errors 處理.
 
