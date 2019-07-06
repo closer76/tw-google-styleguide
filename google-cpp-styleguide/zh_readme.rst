@@ -1,7 +1,7 @@
 中文版前言
 ====================
 
-:版本:   英文版 63107a12eb85a4da33e2585a912234e4794cea06 (2019/5/21 翻譯中)
+:版本:   英文版 `63107a1 <https://github.com/google/styleguide/commit/63107a12eb85a4da33e2585a912234e4794cea06>`_
 
 :原作者:
 
@@ -13,7 +13,7 @@
          Mark Mentovai
          Tashana Landray
 
-:翻譯:
+:中文版翻譯:
 
     .. line-block::
 
@@ -28,8 +28,8 @@
 
     - `Google Style Guide <https://github.com/google/styleguide>`_
     - `Google 開源專案風格指南 - 簡體中文版 <http://github.com/zh-google-styleguide/zh-google-styleguide>`_
-    - `Google 開源專案風格指南 - 繁體中文版 <https://github.com/welkineins/tw-google-styleguide>`_
-    - `Google 開源專案風格指南 - 繁體中文版 (forked) <https://github.com/closer76/tw-google-styleguide>`_
+    - `Google 開源專案風格指南 - 繁體中文版 (by @welkineins) <https://github.com/welkineins/tw-google-styleguide>`_
+    - `Google 開源專案風格指南 - 繁體中文版 (by @closer76) <https://github.com/closer76/tw-google-styleguide>`_
 
 譯者前言
 --------------------
@@ -50,13 +50,15 @@ Google 經常會發佈一些開源專案，意味著會接受來自其他程式�
 
 中文版和英文版一樣，使用 ``Artistic License/GPL`` 開源許可。
 
-繁體中文版修訂歷史：
+繁體中文版修訂歷史
+^^^^^^^^^^^^^^^^^^
 
-    - 2019-05: @closer76 同步至英文版 63107a12eb85a4da33e2585a912234e4794cea06 。
+    - 2019-05: @closer76 同步至英文版 `63107a1 <https://github.com/google/styleguide/commit/63107a12eb85a4da33e2585a912234e4794cea06>`_。
 
-	- 2016-02: @welkineins 為了撰寫公司內部的程式撰寫風格，將簡體中文版作為基礎將其翻譯為繁體中文，並且修正兩岸間的用語差異，同時也進行了一些細微的敘述調整。
-	
-簡體中文版修訂歷史：
+    - 2016-02: @welkineins 為了撰寫公司內部的程式撰寫風格，將簡體中文版作為基礎將其翻譯為繁體中文，並且修正兩岸間的用語差異，同時也進行了一些細微的敘述調整。
+
+簡體中文版修訂歷史
+^^^^^^^^^^^^^^^^^^
 
     - 2015-08：熱心的清華大學同學 @lilinsanity 完善了「類」章節以及其它一些小章節。至此，對 Google CPP Style Guide 4.45 的翻譯正式竣工。
 
