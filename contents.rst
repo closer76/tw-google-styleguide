@@ -8,6 +8,6 @@
 .. toctree::
 
    index
-   google-cpp-styleguide/contents
+   google-cpp-styleguide/index
    google-objc-styleguide/contents
    google-python-styleguide/contents
