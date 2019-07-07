@@ -48,54 +48,56 @@
     * 在命名空間結束的地方，依下列範例中的方式加上註解。
     * 在 ``include``、`gflags <https://gflags.github.io/gflags/>`_ 的宣告/定義，以及其他命名空間的類別前置宣告之後，把整個原始碼文件放置在命名空間內：
 
-        .. code-block:: c++
+      .. code-block:: c++
 
-            // 在 .h 檔中
-            namespace mynamespace {
+        // 在 .h 檔中
+        namespace mynamespace {
 
-            // 所有的宣告都都置於命名空間中。
-            // 注意不要使用縮排
-            class MyClass {
-             public:
-              ...
-              void Foo();
-            };
+        // 所有的宣告都都置於命名空間中。
+        // 注意不要使用縮排
+        class MyClass {
+            public:
+            ...
+            void Foo();
+        };
 
-            }  // namespace mynamespace
+        }  // namespace mynamespace
 
-        .. code-block:: c++
+      .. code-block:: c++
 
-            // 在 .cc 檔中
-            namespace mynamespace {
+        // 在 .cc 檔中
+        namespace mynamespace {
 
-            // 函式定義都置於命名空間中。
-            void MyClass::Foo() {
-              ...
-            }
+        // 函式定義都置於命名空間中。
+        void MyClass::Foo() {
+            ...
+        }
 
-            }  // namespace mynamespace
+        }  // namespace mynamespace
 
       更複雜的 ``.cc`` 檔中可能有更多的細節，例如 flags 或是 using 宣告式。
 
-        .. code-block:: c++
+      .. code-block:: c++
 
-            #include "a.h"
+        #include "a.h"
 
-            DEFINE_FLAG(bool, someflag, false, "dummy flag");
+        DEFINE_FLAG(bool, someflag, false, "dummy flag");
 
-            namespace mynamespace {
+        namespace mynamespace {
 
-            using ::foo::bar;
+        using ::foo::bar;
 
-            ...code for mynamespace...    // 程式碼從最左邊開始寫起
+        ...code for mynamespace...    // 程式碼從最左邊開始寫起
 
-            }  // namespace mynamespace
+        }  // namespace mynamespace
 
     * 要將程式產生的 protocol message code 放進命名空間中，請在 ``.proto`` 檔中使用  ``package`` 指示詞。詳細說明請見 `Protocol Buffer Packages <https://developers.google.com/protocol-buffers/docs/reference/cpp-generated#package>`_。
 
     * 不要在命名空間 ``std`` 內宣告任何東西，包括標準函式庫的類別前置宣告。在 ``std`` 命名空間宣告任何東西其結果未定義；也就是說這樣的做法無法移植。要宣告標準函式庫內的實體，直接 ``include`` 對應的標頭檔。
 
     * 不要使用 using 指令 (using-directive) 讓一個命名空間下的所有名稱都可以使用。
+
+      .. warning::
 
         .. code-block:: c++
 
@@ -104,25 +106,25 @@
 
     * 不要在標頭檔的命名空間作用域中使用 *命名空間別名* （除非是僅在內部使用且有明確標示的命名空間），因為在標頭檔內的命名空間中匯入的任何東西，都會變成這個檔案所匯出的公開 API 的一部份。
 
-        .. code-block:: c++
+      .. code-block:: c++
 
-            // 在 .cc 檔中，縮短某些常用的名稱。
+        // 在 .cc 檔中，縮短某些常用的名稱。
+        namespace baz = ::foo::bar::baz;
+
+      .. code-block:: c++
+
+        // 在 .h 檔中，縮短某些常用的名稱。
+        namespace librarian {
+        namespace impl {  // 僅供內部使用，非 API 的一部份。
+        namespace sidetable = ::pipeline_diagnostics::sidetable;
+        }  // namespace impl
+
+        inline void my_inline_function() {
+            // 僅在函式（或方法）內使用的命名空間別名。
             namespace baz = ::foo::bar::baz;
-
-        .. code-block:: c++
-
-            // 在 .h 檔中，縮短某些常用的名稱。
-            namespace librarian {
-            namespace impl {  // 僅供內部使用，非 API 的一部份。
-            namespace sidetable = ::pipeline_diagnostics::sidetable;
-            }  // namespace impl
-
-            inline void my_inline_function() {
-              // 僅在函式（或方法）內使用的命名空間別名。
-              namespace baz = ::foo::bar::baz;
-              ...
-            }
-            }  // namespace librarian
+            ...
+        }
+        }  // namespace librarian
 
     * 禁止使用行內命名空間。
 
@@ -145,11 +147,11 @@
 
     匿名命名空間的格式和一般命名空間相同。結束時的註解處不需加上命名空間的名稱：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            namespace {
-            ...
-            }  // namespace
+        namespace {
+        ...
+        }  // namespace
 
 非成員函式、靜態 (Static) 成員函式和全域函式
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,49 +183,55 @@
 
 C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小的作用域中宣告變數，並且離第一次使用的地方越近越好。這會讓閱讀者更容易找到變數宣告的位置、宣告的類型和初始值。要注意，應該在宣告時直接初始化變數，而不要先宣告後再賦值, 例如：
 
+.. warning::
+
     .. code-block:: c++
 
         int i;
         i = f(); // 不推薦 -- 初始化和宣告分離
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        int j = g(); // 推薦 -- 宣告時初始化
+    int j = g(); // 推薦 -- 宣告時初始化
+
+.. warning::
 
     .. code-block:: c++
 
         std::vector<int> v;
-        v.push_back(1); // 用下面的括號初始化法會更好
+        v.push_back(1); // 建議使用 {} 初始化法語法
         v.push_back(2);
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        std::vector<int> v = {1, 2}; // 推薦 -- v 在宣告時初始化
+    std::vector<int> v = {1, 2}; // 推薦 -- v 在宣告時初始化
 
 在 ``if``、``while`` 和 ``for`` 陳述句需要的變數一般都會宣告在這些陳述句中，也就是這些變數會存活於這些作用域內。例如：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        while (const char* p = strchr(str, '/')) str = p + 1;
+    while (const char* p = strchr(str, '/')) str = p + 1;
 
 一個特例：如果變數是一個物件，每次進入作用域時其建構式都會被呼叫，每次離開作用域時其解構式都會被呼叫。
+
+.. warning::
 
     .. code-block:: c++
 
         // 沒效率的實作
         for (int i = 0; i < 1000000; ++i) {
-            Foo f; // 建構式和解構式分別呼叫 1000000 次。
-            f.DoSomething(i);
+          Foo f; // 建構式和解構式分別呼叫 1000000 次。
+          f.DoSomething(i);
         }
 
 在迴圈作用域外面宣告這類型的變數可能更加的有效率。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        Foo f; // 建構式和解構式只呼叫 1 次
-        for (int i = 0; i < 1000000; ++i) {
-            f.DoSomething(i);
-        }
+    Foo f; // 建構式和解構式只呼叫 1 次
+    for (int i = 0; i < 1000000; ++i) {
+      f.DoSomething(i);
+    }
 
 .. _static-and-global-variables:
 
@@ -257,19 +265,21 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
 
         Trivia 解構式的執行順序並不重要（因為基本上它們什麼都沒做）；否則我們就有「在物件生命週期結束後仍去存取該物件」的風險。因此，只有 trivially destructible 的物件，才能擁有靜態儲存週期。基礎型別（像是指標和 ``int``）和陣列（組成型別必需為 trivially destructible），都算是 trivially destructible。另外，只要變數加上 ``constexpr``，就一定是 trivially destructible。
 
-            .. code-block:: c++
+        .. code-block:: c++
 
-                const int kNum = 10;  // 可以
+            const int kNum = 10;  // 可以
 
-                struct X { int n; };
-                const X kX[] = {{1}, {2}, {3}};  // 可以
+            struct X { int n; };
+            const X kX[] = {{1}, {2}, {3}};  // 可以
 
-                void foo() {
-                  static const char* const kMessages[] = {"hello", "world"};  // 可以
-                }
+            void foo() {
+              static const char* const kMessages[] = {"hello", "world"};  // 可以
+            }
 
-                // 可以：constexpr 確保一定是 trivially destructible
-                constexpr std::array<int, 3> kArray = {{1, 2, 3}};
+            // 可以：constexpr 確保一定是 trivially destructible
+            constexpr std::array<int, 3> kArray = {{1, 2, 3}};
+
+        .. warning::
 
             .. code-block:: c++
 
@@ -291,28 +301,30 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
 
         初始化是個更加複雜的議題。這是因為我們需要考慮的不只是類別的建構式是否會執行，還要考慮初始值的計算過程與結果：
 
-            .. code-block:: c++
+        .. code-block:: c++
 
-                int n = 5;    // 沒問題
-                int m = f();  // ? （視 f 而定）
-                Foo x;        // ? （視 Foo::Foo 而定）
-                Bar y = g();  // ? （視 g 以及 Bar::Bar 而定）
+            int n = 5;    // 沒問題
+            int m = f();  // ? （視 f 而定）
+            Foo x;        // ? （視 Foo::Foo 而定）
+            Bar y = g();  // ? （視 g 以及 Bar::Bar 而定）
 
         除了第一行以外都有不確定初始化順序的問題。
 
         我們所要尋找的概念，以 C++ 標準術語來說，叫做「常數初始化 (constant initialization)」。意思是說用來初始化的運算式必須要是常數運算式 (constant expression)。如果物件在初始化時必須呼叫建構式，那麼該建構式也必須定義為 ``constexpr``：
 
-            .. code-block:: c++
+        .. code-block:: c++
 
-                struct Foo { constexpr Foo(int) {} };
+            struct Foo { constexpr Foo(int) {} };
 
-                int n = 5;  // 沒問題，5 是常數運算式
-                Foo x(2);   // 沒問題，2 是常數運算式，而且 Foo 的建構式也是 constexpr
-                Foo a[] = { Foo(1), Foo(2), Foo(3) };  // 沒問題
+            int n = 5;  // 沒問題，5 是常數運算式
+            Foo x(2);   // 沒問題，2 是常數運算式，而且 Foo 的建構式也是 constexpr
+            Foo a[] = { Foo(1), Foo(2), Foo(3) };  // 沒問題
 
         常數初始化在任何情況下都可被接受。擁有靜態儲存週期的變數在進行常數初始化時，需加上 ``constexpr`` 修飾字，或是（如果可能的話）加上 `ABSL_CONST_INIT <https://github.com/abseil/abseil-cpp/blob/03c1513538584f4a04d666be5eb469e3979febba/absl/base/attributes.h#L540>`__ 屬性。若是擁有靜態儲存週期的非區域變數沒有加上前述的標記，就應該認定該變數會進行動態初始化，在檢視時要格外小心。
 
         相對來說，下列的初始化都是有問題的：
+
+        .. warning::
 
             .. code-block:: c++
 
@@ -328,10 +340,10 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
 
         請儘量不要對非區域變數進行動態初始化；在一般情況下是完全禁止的。然而，若是程式中沒有任何其他的初始化過程與該項初始化有依存關係的話，那麼我們允許這麼做。在這樣的限制下，該項初始化的先後順序並不重要。例如：
 
-            .. code-block:: c++
+        .. code-block:: c++
 
-                int p = getpid();  // 可以，只要沒有其他的靜態變數在初始化時
-                                   // 會用到 p 的值。
+            int p = getpid();  // 可以，只要沒有其他的靜態變數在初始化時
+                                // 會用到 p 的值。
 
         允許對靜態區域變數進行動態初始化（而且其實很常見）。
 
@@ -339,15 +351,15 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
 
         * 全域字串：如果你需要全域/靜態的字串常數，考慮使用單純的字元陣列，或是指向字面字串 (string literal) 第一個元素的 ``char`` 指標。字面字串本身就具有靜態儲存週期，而且通常來說夠用了。
 
-        * Map、set，以及其他的動態容器：如果你需要靜態、固定不變的資料集合（例如：要有一個可以搜尋的 set，或是需要查表），你不能用標準函式庫中的動態容器類別宣告靜態變數，因為它們的解構式都不是 trivial 的。你可以考慮使用 trivial 型別的陣列，例如：「``int`` 陣列」的陣列（用來取代「從 ``int`` 對應到 ``int`` 的 map」），或是 ``pair``（像是 ``int`` 和 ``const char*`` 組成的 ``pair``）的陣列。如果資料集合不大，線性搜尋 (linear search) 就夠用了（而且也很有效率，因為不需要配置額外的記憶體）。如果需要的話，可以讓資料依序排列，然後使用二元搜尋 (binary search) 演算法。如果你真的想用動態容器的話，考慮使用函式內的區域靜態指標（後詳述）。
+        * Map、set，以及其他的動態容器：如果你需要靜態、固定不變的資料集合（例如：要有一個可以搜尋的 set，或是需要查表），你不能用標準函式庫中的動態容器類別宣告靜態變數，因為它們的解構式都不是 trivial 的。你可以考慮使用 trivial 型別的陣列，例如：「``int`` 陣列」的陣列（用來取代「從 ``int`` 對應到 ``int`` 的 map」），或是 ``pair`` （像是 ``int`` 和 ``const char*`` 組成的 ``pair``）的陣列。如果資料集合不大，線性搜尋 (linear search) 就夠用了（而且也很有效率，因為不需要配置額外的記憶體）。如果需要的話，可以讓資料依序排列，然後使用二元搜尋 (binary search) 演算法。如果你真的想用動態容器的話，考慮使用函式內的區域靜態指標（後詳述）。
 
         * 自定型別的靜態變數：如果你需要自定型別的靜態常數資料，該型別的解構式必須為 trivial，而且必須要有 ``constexpr`` 的建構式。
 
         * 如果以上都不符合你的需求，你可以建立一個動態物件，然後將它的指標連結到一個函式內的區域靜態指標變數，永遠不要刪除它：
 
-            .. code-block:: c++
+          .. code-block:: c++
 
-                static const auto* const impl = new T(args...);
+            static const auto* const impl = new T(args...);
 
           （如果初始化的過程很複雜的話，可以放到函式或 lambda 運算式中。）
 
@@ -362,9 +374,9 @@ thread_local 變數
 
     從 C++11 開始，變數可以加上 ``thread_local`` 修飾字：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            thread_local Foo foo = ...;
+        thread_local Foo foo = ...;
 
     ``thread_local`` 變數實作上是許多物件的組合。在不同的執行緒中存取這個變數時，其實是去存取不同的物件。從許多角度來看，``thread_local`` 變數跟 :ref:`靜態儲存週期變數 <static-and-global-variables>` 很像。舉例來說，它們都可以在命名空間作用域宣告、可以在函式中宣告，也可以當作靜態類別資料成員宣告；但它們不能宣告為一般的類別資料成員。
 
@@ -394,17 +406,17 @@ thread_local 變數
 
     在函式內部使用  ``thread_local`` 變數不會有安全性的問題，所以使用上沒有限制。值得一提的是：你可以利用函式內部的 ``thread_local`` 模擬「類別作用域」或是「命名空間作用域」的 ``thread_local`` 變數。作法是定義一個會傳出 ``thread_local`` 變數 reference 的函式/靜態方法：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            Foo& MyThreadLocalFoo() {
-              thread_local Foo result = ComplicatedInitialization();
-              return result;
-            }
+        Foo& MyThreadLocalFoo() {
+          hread_local Foo result = ComplicatedInitialization();
+          return result;
+        }
 
     在類別或命名空間作用域宣告的 ``thread_local`` 變數必須要以「真正編譯時期就決定的常數」初始化（也就是說不能有動態初始化行為）。為了確保這件事，在類別或命名空間作用域宣告的 ``thread_local`` 變數必須要加上 `ABSL_CONST_INIT <https://github.com/abseil/abseil-cpp/blob/master/absl/base/attributes.h>`__ 屬性（或是加上 ``constexpr``，但還是儘量用前面的方法）：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            ABSL_CONST_INIT thread_local Foo foo = ...;
+        ABSL_CONST_INIT thread_local Foo foo = ...;
 
     在定義 thread-local 的變數時，儘量使用「加上 ``thread_local`` 修飾詞」這種方法，避免使用其他方法。

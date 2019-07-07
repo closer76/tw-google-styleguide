@@ -1,7 +1,7 @@
 類別 (Classes)
 ------------------------
 
-類別是 C++ 中程式碼的基本單元。想當然爾, 在程式中類別將被廣泛使用。本節列舉了在撰寫一個類別時該做的和不該做的事項.
+類別是 C++ 中程式碼的基本單元。想當然爾，在程式中類別將被廣泛使用。本節列舉了在撰寫一個類別時該做的和不該做的事項。
 
 建構式的職責
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,16 +51,16 @@
     
     建構式或是轉換運算子（後者從 C++11 開始）可以加上 ``explicit`` 關鍵字，以確保它們只會在目的型別有明確指定（例如有轉型）的情況下使用。這不只在隱式轉換時會用到，在 C++11 的條列式初始化 (list initialization) 語法中也會用到：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            class Foo {
-              explicit Foo(int x, double y);
-              ...
-            };
+        class Foo {
+          explicit Foo(int x, double y);
+          ...
+        };
 
-            void Func(Foo f);
+        void Func(Foo f);
 
-        .. rst-class:: error
+    .. warning::
 
         .. code-block:: c++
 
@@ -111,21 +111,21 @@
 
     對使用者定義型別來說，複製行為是透過定義 copy constructor（複製建構式）和 copy-assignment（複製指派）運算子而達成的。移動行為是透過定義 move constructor（移動建構式）和 move-assignment（移動指派）運算子、或是 copy constructor 和 copy-assignment 運算子而產生。
 
-	在某些情況下編譯器會逕行呼叫複製/移動建構式，例如以傳值的方式傳遞物件時。
+    在某些情況下編譯器會逕行呼叫複製/移動建構式，例如以傳值的方式傳遞物件時。
 
 優點：
 
     可移動及可複製類別的物件可以通過傳值的方式進行傳遞或者回傳，這使得 API 更簡單、更安全，也更通用。與傳遞指標和 reference 不同，這樣的傳遞不會造成所有權、生命週期、可變性等方面的混亂，也就沒必要在協議中特別註明。這同時也防止了客戶端與實作進行非本地端的互動，讓它們更容易被理解、維護、以及在編譯器進行最佳化。另外，這樣的物件可以和需要傳值操作的泛型 API（例如大多數容器）一起使用，而且在某些應用下（例如 type composition）也更有彈性。
 
-	複製/移動建構式與賦值操作一般來說要比它們的各種替代方案（例如 ``Clone()``、``CopyFrom()`` 或 ``Swap()``） 更容易定義，因為無論是隱式的版本還是 ``=`` 的預設行為，編譯器都能幫我們自動產生。這種方式很簡潔，也保證所有資料成員都會被複製。複製與移動建構式一般也更有效率，因為它們不需要配置 heap 空間或是單獨的初始化和賦值步驟，同時也很適合進行類似 `複製省略 <http://en.cppreference.com/w/cpp/language/copy_elision>`__ 這樣的最佳化。
+    複製/移動建構式與賦值操作一般來說要比它們的各種替代方案（例如 ``Clone()``、``CopyFrom()`` 或 ``Swap()``） 更容易定義，因為無論是隱式的版本還是 ``=`` 的預設行為，編譯器都能幫我們自動產生。這種方式很簡潔，也保證所有資料成員都會被複製。複製與移動建構式一般也更有效率，因為它們不需要配置 heap 空間或是單獨的初始化和賦值步驟，同時也很適合進行類似 `複製省略 <http://en.cppreference.com/w/cpp/language/copy_elision>`__ 這樣的最佳化。
 
-	移動作業允許隱式且有效地將 rvalue 物件中的資源轉移出來。有時這能讓程式碼風格更加簡潔。
+    移動作業允許隱式且有效地將 rvalue 物件中的資源轉移出來。有時這能讓程式碼風格更加簡潔。
 
 缺點：
 
     有些類別不需要能被複製，為這些型別提供複製功能會讓人迷惑，也顯得荒謬而不合理。描述 singleton 物件的型別 (``Registerer``)、跟某個特定作用域綁定的物件 (``Cleanup``)，或是和物件識別 (object identity) 緊密結合的類別 (``Mutex``) 等，也都沒有提供複製功能的必要。為多型架構下的基底類別提供複製功能是有害的，因為會造成 `object slicing <https://en.wikipedia.org/wiki/Object_slicing>`__ 的問題。未經仔細設計或預設的複製功能實作可能不正確，這往往會產生令人困惑且難以揪出的臭蟲。
 
-	複製建構式是隱式呼叫的，因此很容易被人忽略。對於那些慣用「資料一定是以 reference 方式傳遞」的語言的開發人員們來說，這尤其讓人困擾。這也可能過度鼓勵複製行為，進而導致效能低落。
+    複製建構式是隱式呼叫的，因此很容易被人忽略。對於那些慣用「資料一定是以 reference 方式傳遞」的語言的開發人員們來說，這尤其讓人困擾。這也可能過度鼓勵複製行為，進而導致效能低落。
 
 結論：
 
@@ -133,40 +133,40 @@
 
     更精確地來說：可複製的類別應該要明確宣告複製相關函式；只能被移動的類別應該要明確宣告移動相關函式；而不能移動也不能複製的類別，應該要明確地刪除複製及移動相關函式。不管是宣告還是刪除，你可以同時將複製、移動相關的四個函式全部列出，但不是必要的。如果你提供了 copy-assignment 或 move-assignment 運算子，你必須同時提供對應的建構式。
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            class Copyable {
-             public:
-              Copyable(const Copyable& rhs) = default;
-              Copyable& operator=(const Copyable& rhs) = default;
+        class Copyable {
+         public:
+          Copyable(const Copyable& rhs) = default;
+          Copyable& operator=(const Copyable& rhs) = default;
 
-              // 上述的宣告覆蓋了隱式的移動行為。 
-            };
+          // 上述的宣告覆蓋了隱式的移動行為。 
+        };
 
-            class MoveOnly {
-             public:
-              MoveOnly(MoveOnly&& rhs);
-              MoveOnly& operator=(MoveOnly&& rhs);
+        class MoveOnly {
+         public:
+          MoveOnly(MoveOnly&& rhs);
+          MoveOnly& operator=(MoveOnly&& rhs);
 
-              // 上述宣告已隱含「刪除複製行為」之意，
-              // 不過如果你希望的話，可以明確表示出來：
-              MoveOnly(const MoveOnly&) = delete;
-              MoveOnly& operator=(const MoveOnly&) = delete;
-            };
+          // 上述宣告已隱含「刪除複製行為」之意，
+          // 不過如果你希望的話，可以明確表示出來：
+          MoveOnly(const MoveOnly&) = delete;
+          MoveOnly& operator=(const MoveOnly&) = delete;
+        };
 
-            class NotCopyableOrMovable {
-             public:
-              // 不可複製也不可移動
-              NotCopyableOrMovable(const NotCopyableOrMovable&) = delete;
-              NotCopyableOrMovable& operator=(const NotCopyableOrMovable&)
-                  = delete;
+        class NotCopyableOrMovable {
+         public:
+          // 不可複製也不可移動
+          NotCopyableOrMovable(const NotCopyableOrMovable&) = delete;
+          NotCopyableOrMovable& operator=(const NotCopyableOrMovable&)
+              = delete;
 
-              // 上述宣告已隱含「刪除移動行為」之意，
-              // 不過如果你希望的話，可以明確表示出來：
-              NotCopyableOrMovable(NotCopyableOrMovable&&) = delete;
-              NotCopyableOrMovable& operator=(NotCopyableOrMovable&&)
-                  = delete;
-            };
+          // 上述宣告已隱含「刪除移動行為」之意，
+          // 不過如果你希望的話，可以明確表示出來：
+          NotCopyableOrMovable(NotCopyableOrMovable&&) = delete;
+          NotCopyableOrMovable& operator=(NotCopyableOrMovable&&)
+              = delete;
+        };
 
     只有在非常明顯的情況下才能省略宣告/刪除語句：舉例來說，如果基底類別不可複製或不可移動，繼承它的類別自然也不行。同樣的，:ref:`結構 <structs-vs-classes>` 是否可以複製或移動，得視它的資料成員是否可以複製或移動而定（和類別的規則不同，因為在 Google 的程式碼中，類別的資料成員不是公開的）。但如果你明確地宣告或刪除了複製/移動行為，另一組的行為不明確，那麼就不能套用這段所說的例外情況（特別是：若是你宣告或刪除了結構的複製/移動行為，那麼你就得遵守這一節中所有針對類別設定的規則）。
 
@@ -183,17 +183,15 @@
 
     想要建立只有資料的被動物件時，使用 ``struct``；其他狀況一律使用 ``class``。
 
-說明:
+在 C++ 中 ``struct`` 和 ``class`` 的行為幾乎一樣。我們為這兩個關鍵字添加我們自己的語義，以便為定義的資料型別選擇合適的關鍵字。
 
-	在 C++ 中 ``struct`` 和 ``class`` 的行為幾乎一樣。我們為這兩個關鍵字添加我們自己的語義，以便為定義的資料型別選擇合適的關鍵字。
+struct 用來定義包含數據的被動物件，也可以包含相關的常數，但除了可以存取其中的資料成員外，沒有其他功能。存取資料時直接存取資料所在的欄外，而非透過函式。除了建構式、解構式、``Initialize()``、``Reset()``、``Validate()`` 等設定資料成員的方法外，不得提供其他的行為方法。
 
-	struct 用來定義包含數據的被動物件，也可以包含相關的常數，但除了可以存取其中的資料成員外，沒有其他功能。存取資料時直接存取資料所在的欄外，而非透過函式。除了建構式、解構式、``Initialize()``、``Reset()``、``Validate()`` 等設定資料成員的方法外，不得提供其他的行為方法。
+如果需要更多的功能，``class`` 更適合。如果難以判斷，就用 ``class``。
 
-	如果需要更多的功能，``class`` 更適合。如果難以判斷，就用 ``class``。
+為了和 STL 保持一致，對於函式物件 (functor) 和 trait 特性可以用 ``struct`` 而非 ``class``。
 
-	為了和 STL 保持一致，對於函式物件 (functor) 和 trait 特性可以用 ``struct`` 而非 ``class``。
-
-	注意：結構和類別的資料成員 :ref:`命名規則 <variable-names>` 不同。
+注意：結構和類別的資料成員 :ref:`命名規則 <variable-names>` 不同。
 
 .. _inheritance:
 

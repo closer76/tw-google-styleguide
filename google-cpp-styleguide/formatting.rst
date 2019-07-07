@@ -30,10 +30,10 @@
 
     但在下列情況下可以有彈性地超過這個限制：
 
-    - 如果該行是註解，且為了不妨礙閱讀、方便複製貼上、或為了能自動連結等原因而不方便切斷者。例如：命令列指令的範例、超過 80 個字元的 URL 等。
-    - 如果該行是 include 陳述式。
-    - 如果該行為 :ref:`#define 保護 <define-guard>`。
-    - 如果該行為 using 宣告。
+        - 如果該行是註解，且為了不妨礙閱讀、方便複製貼上、或為了能自動連結等原因而不方便切斷者。例如：命令列指令的範例、超過 80 個字元的 URL 等。
+        - 如果該行是 include 陳述式。
+        - 如果該行為 :ref:`#define 保護 <define-guard>`。
+        - 如果該行為 using 宣告。
 
 .. _non-ascii-characters:
 
@@ -74,34 +74,34 @@
 
 函式看上去像這樣：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        ReturnType ClassName::FunctionName(Type par_name1, Type par_name2) {
-            DoSomething();
-            ...
-        }
+    ReturnType ClassName::FunctionName(Type par_name1, Type par_name2) {
+      DoSomething();
+      ...
+    }
 
 如果同一行文字太多，放不下所有參數：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        ReturnType ClassName::ReallyLongFunctionName(Type par_name1, Type par_name2,
-                                                     Type par_name3) {
-          DoSomething();
-          ...
-        }
+    ReturnType ClassName::ReallyLongFunctionName(Type par_name1, Type par_name2,
+                                                 Type par_name3) {
+      DoSomething();
+      ...
+    }
 
 甚至連第一個參數都放不下：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        ReturnType LongClassName::ReallyReallyReallyLongFunctionName(
-            Type par_name1,  // 4 空格縮排
-            Type par_name2,
-            Type par_name3) {
-          DoSomething();  // 2 空格縮排
-          ...
-        }
+    ReturnType LongClassName::ReallyReallyReallyLongFunctionName(
+        Type par_name1,  // 4 空格縮排
+        Type par_name2,
+        Type par_name3) {
+      DoSomething();  // 2 空格縮排
+      ...
+    }
 
 注意以下幾點：
 
@@ -133,44 +133,44 @@
 
 沒有用到、而且看前後文就可以了解的參數，名稱可以省略：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        class Foo {
-         public:
-          Foo(Foo&&);
-          Foo(const Foo&);
-          Foo& operator=(Foo&&);
-          Foo& operator=(const Foo&);
-        };
+    class Foo {
+     public:
+      Foo(Foo&&);
+      Foo(const Foo&);
+      Foo& operator=(Foo&&);
+      Foo& operator=(const Foo&);
+    };
 
 若是沒有用到的參數，但不是那麼容易理解的話，在函式定義處將參數名註解起來：
 
+.. code-block:: c++
+
+    class Shape {
+     public:
+      virtual void Rotate(double radians) = 0;
+    }
+
+    class Circle : public Shape {
+     public:
+      void Rotate(double radians) override;
+    }
+
+    void Circle::Rotate(double /*radians*/) {}
+
+.. warning::
+
     .. code-block:: c++
 
-        class Shape {
-         public:
-          virtual void Rotate(double radians) = 0;
-        }
-
-        class Circle : public Shape {
-         public:
-          void Rotate(double radians) override;
-        }
-
-        void Circle::Rotate(double /*radians*/) {}
-
-    .. warning::
-
-        .. code-block:: c++
-
-            // 不好 - 如果將來有人要實作，很難猜出變數是幹什麼用的。
-            void Circle::Rotate(double) {}
+        // 不好 - 如果將來有人要實作，很難猜出變數是幹什麼用的。
+        void Circle::Rotate(double) {}
 
 屬性、以及會展開成屬性的巨集，要放在函式宣告或定義的最前面，比回傳型別更前面：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        MUST_USE_RESULT bool IsOK();
+    MUST_USE_RESULT bool IsOK();
 
 .. _formatting-lambda-expressions:
 
@@ -183,21 +183,21 @@ Lambda 運算式
 
 若是以 by-reference 方式 capture，變數名稱和 ``&`` 之間不留空格。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        int x = 0;
-        auto x_plus_n = [&x](int n) -> int { return x + n; }
+    int x = 0;
+    auto x_plus_n = [&x](int n) -> int { return x + n; }
 
 如果 lambda 夠短的話，可以直接將完整內容寫在行內，當成函式的引數。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        std::set<int> blacklist = {7, 8, 9};
-        std::vector<int> digits = {3, 9, 1, 8, 4, 7, 1};
-        digits.erase(std::remove_if(digits.begin(), digits.end(), [&blacklist](int i) {
-                        return blacklist.find(i) != blacklist.end();
-                    }),
-                    digits.end());
+    std::set<int> blacklist = {7, 8, 9};
+    std::vector<int> digits = {3, 9, 1, 8, 4, 7, 1};
+    digits.erase(std::remove_if(digits.begin(), digits.end(), [&blacklist](int i) {
+                   return blacklist.find(i) != blacklist.end();
+                 }),
+                 digits.end());
 
 .. _function-calls:
 
@@ -210,57 +210,57 @@ Lambda 運算式
 
 函式呼叫為以下的形式：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        bool result = DoSomething(argument1, argument2, argument3);
+    bool result = DoSomething(argument1, argument2, argument3);
 
 如果同一行放不下，可斷為多行，後面每一行都和第一個引數對齊，左括號後和右括號前不要留空格：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        bool result = DoSomething(averyveryveryverylongargument1,
-                                  argument2, argument3);
+    bool result = DoSomething(averyveryveryverylongargument1,
+                              argument2, argument3);
 
 參數也可以放在下一行，加上 4 格的縮排：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        if (...) {
-          ...
-          ...
-          if (...) {
-            bool result = DoSomething(
-                argument1, argument2,  // 4 空格縮排
-                argument3, argument4);
-            ...
-          }
+    if (...) {
+      ...
+      ...
+      if (...) {
+        bool result = DoSomething(
+            argument1, argument2,  // 4 空格縮排
+            argument3, argument4);
+        ...
+      }
 
 儘量把多個參數放在同一行，以減少函式呼叫所需的行數，除非影響到可讀性。有人認為把每個參數都獨立成行，不僅更好讀，而且方便編輯參數。不過，比起容易編輯，我們更重視可讀性，且大部份可讀性的問題都可以使用下列各種技巧解決。
 
 如果某些參數是略複雜的運算式，全部放在同一行會降低可讀性的話，那麼可以試著建立名稱較有意義的變數，暫存該運算式的結果，再傳入函式：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        int my_heuristic = scores[x] * y + bases[x];
-        bool result = DoSomething(my_heuristic, x, y, z);
+    int my_heuristic = scores[x] * y + bases[x];
+    bool result = DoSomething(my_heuristic, x, y, z);
 
 或是將比較難懂的引數單獨放在一行，再加上註解說明：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        bool retval = DoSomething(scores[x] * y + bases[x],  // Score heuristic.
-                                  x, y, z);
+    bool retval = DoSomething(scores[x] * y + bases[x],  // Score heuristic.
+                              x, y, z);
 
 如果將每個參數獨立成行可讀性還是比較高的話，那就這麼做。要不要這麼做考量的原因還是該放在可讀性，而非其他的因素。
 
 有時候引數照著某種結構排列對可讀性來說很重要。在這種狀況下，可以酌情按其結構來決定參數格式：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        // 通過 3x3 矩陣轉換 widget.
-        my_widget.Transform(x1, x2, x3,
-                            y1, y2, y3,
-                            z1, z2, z3);
+    // 通過 3x3 矩陣轉換 widget.
+    my_widget.Transform(x1, x2, x3,
+                        y1, y2, y3,
+                        z1, z2, z3);
 
 .. _braced-initializer-list-format:
 
@@ -273,33 +273,33 @@ Lambda 運算式
 
 如果 ``{}`` 列跟在名稱（如型別或變數）後面出現，你可以把名稱當成函式的名稱、``{}`` 是函式呼叫的括號這樣的格式撰寫。如果沒有名稱的話，就當作有個長度為零的名稱。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        // 將 {} 初值列放在一行內的範例。
-        return {foo, bar};
-        functioncall({foo, bar});
-        std::pair<int, int> p{foo, bar};
+    // 將 {} 初值列放在一行內的範例。
+    return {foo, bar};
+    functioncall({foo, bar});
+    std::pair<int, int> p{foo, bar};
 
-        // 若是你不得不斷行。
-        SomeFunction(
-            {"assume a zero-length name before {"},
-            some_other_function_parameter);
-        SomeType variable{
-            some, other, values,
-            {"assume a zero-length name before {"},
-            SomeOtherType{
-                "Very long string requiring the surrounding breaks.",
-                some, other values},
-            SomeOtherType{"Slightly shorter string",
-                          some, other, values}};
-        SomeType variable{
-            "This is too long to fit all in one line"};
-        MyType m = {  // 你也可以在 { 前斷行。
-            superlongvariablename1,
-            superlongvariablename2,
-            {short, interior, list},
-            {interiorwrappinglist,
-             interiorwrappinglist2}};
+    // 若是你不得不斷行。
+    SomeFunction(
+        {"assume a zero-length name before {"},
+        some_other_function_parameter);
+    SomeType variable{
+        some, other, values,
+        {"assume a zero-length name before {"},
+        SomeOtherType{
+            "Very long string requiring the surrounding breaks.",
+            some, other values},
+        SomeOtherType{"Slightly shorter string",
+                      some, other, values}};
+    SomeType variable{
+        "This is too long to fit all in one line"};
+    MyType m = {  // 你也可以在 { 前斷行。
+        superlongvariablename1,
+        superlongvariablename2,
+        {short, interior, list},
+        {interiorwrappinglist,
+         interiorwrappinglist2}};
 
 .. _conditionals:
 
@@ -314,96 +314,96 @@ Lambda 運算式
 
 最常見的是沒有空格的格式。兩種格式其實都可以，重點是要 *保持一致性*。如果你是在修改既有的檔案，使用原有的格式。如果是建立新的程式碼，參考該目錄下或專案中其它檔案的格式。如果你還是不知道該怎麼做，而且也沒有個人偏好的話，就用沒有空格的格式。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        if (condition) {  // 括號裡沒空格。
-          ...  // 2 空格縮排。
-        } else if (...) {  // else 與 if 的右大括號放在同一行。
-          ...
-        } else {
-          ...
-        }
+    if (condition) {  // 括號裡沒空格。
+      ...  // 2 空格縮排。
+    } else if (...) {  // else 與 if 的右大括號放在同一行。
+      ...
+    } else {
+      ...
+    }
 
-如果你比較喜歡在括號內部加空格:
+如果你比較喜歡在括號內部加空格：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        if ( condition ) {  // 括號內加上空格 - 較少用
-          ...  // 2 空格縮排。
-        } else {  // else 與 if 的右大括號放在同一行。
-          ...
-        }
+    if ( condition ) {  // 括號內加上空格 - 較少用
+      ...  // 2 空格縮排。
+    } else {  // else 與 if 的右大括號放在同一行。
+      ...
+    }
 
 注意在所有情況下，``if`` 和左括號間都有個空格。如果有大括號的話，右括號和左大括號之間也要有個空格：
 
-    .. warning::
-
-        .. code-block:: c++
-
-            if(condition)     // 差 - IF 後面沒空格。
-            if (condition){   // 差 - { 前面沒空格。
-            if(condition){    // 前面兩項錯誤犯好犯滿。
+.. warning::
 
     .. code-block:: c++
 
-        if (condition) {  // 可 - IF 後面和 { 前面都留有適當的空格。
+        if(condition)     // 差 - IF 後面沒空格。
+        if (condition){   // 差 - { 前面沒空格。
+        if(condition){    // 前面兩項錯誤犯好犯滿。
+
+.. code-block:: c++
+
+    if (condition) {  // 可 - IF 後面和 { 前面都留有適當的空格。
 
 簡短的條件語句可以寫在同一行，如果這樣可讀性比較高的話。只有當句子簡單並且沒有使用 ``else`` 子句時可以使用：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        if (x == kFoo) return new Foo();
-        if (x == kBar) return new Bar();
+    if (x == kFoo) return new Foo();
+    if (x == kBar) return new Bar();
 
 如果述句中有 ``else`` 的話就禁止如此使用：
 
-    .. warning::
+.. warning::
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            // 不可以這樣子 - 當 ELSE 子句存在時，IF 陳述句卻只擠在同一行
-            if (x) DoThis();
-            else DoThat();
+        // 不可以這樣子 - 當 ELSE 子句存在時，IF 陳述句卻只擠在同一行
+        if (x) DoThis();
+        else DoThat();
 
 一般來說，單行語句不需要使用大括號，如果你喜歡用也沒問題；複雜的條件式或迴圈，使用大括號的話可讀性較佳。也有些專案要求 ``if`` 必須一定要跟著使用大括號：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        if (condition)
-          DoSomething();  // 2 空格縮排。
+    if (condition)
+      DoSomething();  // 2 空格縮排。
 
-        if (condition) {
-          DoSomething();  // 2 空格縮排。
-        }
+    if (condition) {
+      DoSomething();  // 2 空格縮排。
+    }
 
 但如果整個述句中某個 ``if``-``else`` 的區塊使用了大括號的話，其它區塊也必須使用：
 
-    .. warning::
-
-        .. code-block:: c++
-
-            // 不可以這樣子 - IF 有大括號 ELSE 卻沒有。
-            if (condition) {
-                foo;
-            } else
-                bar;
-
-            // 不可以這樣子 - ELSE 有大括號 IF 卻沒有。
-            if (condition)
-                foo;
-            else {
-                bar;
-            }
-
+.. warning::
 
     .. code-block:: c++
 
-        // 只要其中一個區塊用了大括號，兩個區塊都要用。
+        // 不可以這樣子 - IF 有大括號 ELSE 卻沒有。
         if (condition) {
           foo;
-        } else {
+        } else
+          bar;
+
+        // 不可以這樣子 - ELSE 有大括號 IF 卻沒有。
+        if (condition)
+          foo;
+        else {
           bar;
         }
+
+
+.. code-block:: c++
+
+    // 只要其中一個區塊用了大括號，兩個區塊都要用。
+    if (condition) {
+      foo;
+    } else {
+      bar;
+    }
 
 .. _loops-and-switch-statements:
 
@@ -418,70 +418,70 @@ Lambda 運算式
 
 如果不是使用列舉值當成 ``case`` 的條件，那麼 ``switch`` 就一定要有 ``default`` 區塊（如果是用列舉值的話，只要有沒有處理到的值，編譯器就會產生警告）。如果程式不應該跑到 ``default``，就把它當成錯誤狀態。例如：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        switch (var) {
-          case 0: {  // 2 空格縮排
-            ...      // 4 空格縮排
-            break;
-          }
-          case 1: {
-            ...
-            break;
-          }
-          default: {
-            assert(false);
-          }
-        }
+    switch (var) {
+      case 0: {  // 2 空格縮排
+        ...      // 4 空格縮排
+        break;
+      }
+      case 1: {
+        ...
+        break;
+      }
+      default: {
+        assert(false);
+      }
+    }
 
 要從某個 ``case`` 標籤 fall-through 到下一個的話，必須使用 ``ABSL_FALLTHROUGH_INTENDED;`` 巨集（定義在 ``absl/base/macros.h`` 中）明確標示。``ABSL_FALLTHROUGH_INTENDED;`` 應該要放在放在執行到「要 fall-through 到下一個 ``case`` 標籤」的地方。例外狀況是：若是有數個連續而又不帶任何程式碼的 ``case`` 標籤，就不需要特別註明。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        switch (x) {
-          case 41:  // 此處不需特別註明。
-          case 43:
-            if (dont_be_picky) {
-              // 使用下列的巨集取代、或額外加上說明用的註解。
-              ABSL_FALLTHROUGH_INTENDED;
-            } else {
-              CloseButNoCigar();
-              break;
-            }
-          case 42:
-            DoSomethingSpecial();
-            ABSL_FALLTHROUGH_INTENDED;
-          default:
-            DoSomethingGeneric();
-            break;
+    switch (x) {
+      case 41:  // 此處不需特別註明。
+      case 43:
+        if (dont_be_picky) {
+          // 使用下列的巨集取代、或額外加上說明用的註解。
+          ABSL_FALLTHROUGH_INTENDED;
+        } else {
+          CloseButNoCigar();
+          break;
         }
+      case 42:
+        DoSomethingSpecial();
+        ABSL_FALLTHROUGH_INTENDED;
+      default:
+        DoSomethingGeneric();
+        break;
+    }
 
 若迴圈中只有一行述句，加不加大括號都可以。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        for (int i = 0; i < kSomeNumber; ++i)
-            printf("I love you\n");
+    for (int i = 0; i < kSomeNumber; ++i)
+      printf("I love you\n");
 
-        for (int i = 0; i < kSomeNumber; ++i) {
-            printf("I take it back\n");
-        }
+    for (int i = 0; i < kSomeNumber; ++i) {
+      printf("I take it back\n");
+    }
 
 空的迴圈本體應使用一組內部無程式碼的大括號，或是 ``continue``，而不要就放一個分號在那邊。
 
+.. code-block:: c++
+
+    while (condition) {
+      // 反覆直到條件失效。
+    }
+    for (int i = 0; i < kSomeNumber; ++i) {}  // 可 - 寫在同一行也沒有問題。
+    while (condition) continue;  // 可 - contunue 表明沒有邏輯運算。
+
+.. warning::
+
     .. code-block:: c++
 
-        while (condition) {
-          // 反覆直到條件失效。
-        }
-        for (int i = 0; i < kSomeNumber; ++i) {}  // 可 - 寫在同一行也沒有問題。
-        while (condition) continue;  // 可 - contunue 表明沒有邏輯運算。
-
-    .. warning::
-
-        .. code-block:: c++
-
-            while (condition);  // 不好 - 看起來像是 while/loop 的一部分。
+        while (condition);  // 不好 - 看起來像是 while/loop 的一部分。
 
 .. _pointer-and-reference-expressions:
 
@@ -494,12 +494,12 @@ Lambda 運算式
 
 下面是指標和 reference 運算式的正確使用範例：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        x = *p;
-        p = &x;
-        x = r.y;
-        x = r->y;
+    x = *p;
+    p = &x;
+    x = r.y;
+    x = r->y;
 
 請注意：
 
@@ -508,32 +508,32 @@ Lambda 運算式
 
 在宣告指標變數或參數時，星號要靠在型別還是變數名稱旁邊都可以：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        // 沒問題，空格放在星號前。
-        char *c;
-        const string &str;
+    // 沒問題，空格放在星號前。
+    char *c;
+    const string &str;
 
-        // 沒問題，空格放在星號後。
-        char* c;
-        const string& str;
+    // 沒問題，空格放在星號後。
+    char* c;
+    const string& str;
 
 在單一檔案內的風格要保持一致，所以如果是修改現有檔案，請遵守該檔案的風格。
 
 我們允許（但不常用）在同一行宣告式中宣告 1 個以上的變數，但其中不得有指標或是 reference 的宣告，因為這樣的宣告式很容易造成混淆。
 
+.. code-block:: c++
+
+    // 如果對可讀性有幫助就沒問題。
+    int x, y;
+
+.. warning::
+
     .. code-block:: c++
 
-        // 如果對可讀性有幫助就沒問題。
-        int x, y;
-
-    .. warning::
-
-        .. code-block:: c++
-
-            int x, *y;  // 禁止 - 多個變數的宣告式中不得有 & 或 *
-            char * c;  // 不好 - 星號前後都有空格
-            const string & str;  // 不好 - & 前後都有空格
+        int x, *y;  // 禁止 - 多個變數的宣告式中不得有 & 或 *
+        char * c;  // 不好 - 星號前後都有空格
+        const string & str;  // 不好 - & 前後都有空格
 
 .. _boolean-expressions:
 
@@ -546,13 +546,13 @@ Lambda 運算式
 
 下面的例子中，``&&`` 運算子一律位於行尾：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        if (this_one_thing > this_other_thing &&
-            a_third_thing == a_fourth_thing &&
-            yet_another & last_one) {
-          ...
-        }
+    if (this_one_thing > this_other_thing &&
+        a_third_thing == a_fourth_thing &&
+        yet_another & last_one) {
+      ...
+    }
 
 請注意在上述的例子中，兩個 ``&&`` 運算子均位於行尾。這樣的格式在 Google 的程式碼中很常見，雖然你要把所有運算子放在開頭也可以。可以額外加上括號，合理使用的話對增加可讀性是很有幫助的。此外，請直接用符號形式的運算子，例如 ``&&`` 和 ``~``，而不要用單字形式的運算子，如 ``and`` 和 ``compl``。
 
@@ -567,19 +567,19 @@ Lambda 運算式
 
 若是你寫 ``x = epr`` 中的 ``expr`` 時會加上括號，那 ``return expr;`` 中的 ``expr`` 才需要括號。
 
+.. code-block:: c++
+
+    return result;                  // 返回值很簡單，不需要括號。
+    // 把複雜的運算式包起來，改善可讀性。這時使用括號就 OK。
+    return (some_long_condition &&
+            another_condition);
+
+.. warning::
+
     .. code-block:: c++
 
-        return result;                  // 返回值很簡單，不需要括號。
-        // 把複雜的運算式包起來，改善可讀性。這時使用括號就 OK。
-        return (some_long_condition &&
-                another_condition);
-
-    .. warning::
-
-        .. code-block:: c++
-
-            return (value);                // 你不會寫 var = (value);
-            return(result);                // return 不是一個函式！
+        return (value);                // 你不會寫 var = (value);
+        return(result);                // return 不是一個函式！
 
 .. _variable-and-array-initialization:
 
@@ -592,28 +592,28 @@ Lambda 運算式
 
 你可以用 ``=``、``()`` 或 ``{}``，以下用法都對：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        int x = 3;
-        int x(3);
-        int x{3};
-        string name("Some Name");
-        string name = "Some Name";
-        string name{"Some Name"};
+    int x = 3;
+    int x(3);
+    int x{3};
+    string name("Some Name");
+    string name = "Some Name";
+    string name{"Some Name"};
 
 若是某型別有 ``std::initializer_list`` 建構式的話，使用 ``{}`` 初始列要特別小心。一個「不是空的」``{}`` 初始列會優先喚起 ``std::initializer_list`` 建構式。注意「空的」``{}`` 初始列是個例為，它會喚起預設建構式。若是想要呼叫「非 ``std::initializer_list``」的建構式，請改用括號進行初始化。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        std::vector<int> v(100, 1);  // vector 中有 100 個元素：每個元素都是 1
-        std::vector<int> v{100, 1};  // vector 中有 2 個元素：100 和 1
+    std::vector<int> v(100, 1);  // vector 中有 100 個元素：每個元素都是 1
+    std::vector<int> v{100, 1};  // vector 中有 2 個元素：100 和 1
 
 此外，``{}`` 初始列不允許整數型別的縮小 (narrowing) 轉換，這可以用來避免一些型別上的程式撰寫錯誤。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        int pi(3.14);  // 可 -- pi == 3.
-        int pi{3.14};  // 編譯器錯誤：縮小轉換
+    int pi(3.14);  // 可 -- pi == 3.
+    int pi{3.14};  // 編譯器錯誤：縮小轉換
 
 .. _preprocessor-directives:
 
@@ -626,30 +626,30 @@ Lambda 運算式
 
 即使前置處理器指令位於縮排程式碼區塊中，也應該最開頭寫起。
 
+.. code-block:: c++
+
+    // 可 - 指令從行首寫起
+      if (lopsided_score) {
+    #if DISASTER_PENDING      // 正確 -- 從行首寫起。
+        DropEverything();
+    # if NOTIFY               // 可以，但非必要 -- # 後面有空格
+        NotifyClient();
+    # endif
+    #endif
+        BackToNormal();
+      }
+
+.. warning::
+
     .. code-block:: c++
 
-        // 可 - 指令從行首寫起
+        // 不可 - 讓指令縮排
           if (lopsided_score) {
-        #if DISASTER_PENDING      // 正確 -- 從行首寫起。
+            #if DISASTER_PENDING  // 錯了！ "#if" 應該放在行開頭
             DropEverything();
-        # if NOTIFY               // 可以，但非必要 -- # 後面有空格
-            NotifyClient();
-        # endif
-        #endif
+            #endif                // 錯了！ "#endif" 不要縮排
             BackToNormal();
           }
-
-    .. warning::
-
-        .. code-block:: c++
-
-            // 不可 - 讓指令縮排
-              if (lopsided_score) {
-                #if DISASTER_PENDING  // 錯了！ "#if" 應該放在行開頭
-                DropEverything();
-                #endif                // 錯了！ "#endif" 不要縮排
-                BackToNormal();
-              }
 
 .. _class-format:
 
@@ -662,27 +662,27 @@ Lambda 運算式
 
 類別宣告（這裡不談註解；想了解類別的註解原則，請參考 :ref:`class-comments`）的基本格式如下：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        class MyClass : public OtherClass {
-         public:      // 注意有 1 空格縮排！
-          MyClass();  // 一般的 2 空格縮排。
-          explicit MyClass(int var);
-          ~MyClass() {}
+    class MyClass : public OtherClass {
+     public:      // 注意有 1 空格縮排！
+      MyClass();  // 一般的 2 空格縮排。
+      explicit MyClass(int var);
+      ~MyClass() {}
 
-          void SomeFunction();
-          void SomeFunctionThatDoesNothing() {
-          }
+      void SomeFunction();
+      void SomeFunctionThatDoesNothing() {
+      }
 
-          void set_some_var(int var) { some_var_ = var; }
-          int some_var() const { return some_var_; }
+      void set_some_var(int var) { some_var_ = var; }
+      int some_var() const { return some_var_; }
 
-         private:
-          bool SomeInternalFunction();
+     private:
+      bool SomeInternalFunction();
 
-          int some_var_;
-          int some_other_var_;
-        };
+      int some_var_;
+      int some_other_var_;
+    };
 
 注意事項：
 
@@ -709,32 +709,32 @@ Lambda 運算式
 
 建構式初值列可接受的格式如下：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        // 當一行可以塞得下時：
-        MyClass::MyClass(int var) : some_var_(var) {
-          DoSomething();
-        }
+    // 當一行可以塞得下時：
+    MyClass::MyClass(int var) : some_var_(var) {
+      DoSomething();
+    }
 
-        // 如果一行塞不下建構式名稱列和初值列的話，你必須
-        // 在分號前換行，並且縮排 4 個空格
-        MyClass::MyClass(int var)
-            : some_var_(var), some_other_var_(var + 1) {
-          DoSomething();
-        }
+    // 如果一行塞不下建構式名稱列和初值列的話，你必須
+    // 在分號前換行，並且縮排 4 個空格
+    MyClass::MyClass(int var)
+        : some_var_(var), some_other_var_(var + 1) {
+      DoSomething();
+    }
 
-        // 若是初值列得分成好幾行的話，每個成員各占一行，
-        // 排列整齊：
-        MyClass::MyClass(int var)
-            : some_var_(var),             // 4 格縮排
-              some_other_var_(var + 1) {  // 對齊前一行
-          DoSomething();
-        }
+    // 若是初值列得分成好幾行的話，每個成員各占一行，
+    // 排列整齊：
+    MyClass::MyClass(int var)
+        : some_var_(var),             // 4 格縮排
+          some_other_var_(var + 1) {  // 對齊前一行
+      DoSomething();
+    }
 
-        // 和其他程式碼區塊一樣，如果塞得下的話，右大括號可以
-        // 和左大括號放在同一行。
-        MyClass::MyClass(int var)
-            : some_var_(var) {}
+    // 和其他程式碼區塊一樣，如果塞得下的話，右大括號可以
+    // 和左大括號放在同一行。
+    MyClass::MyClass(int var)
+        : some_var_(var) {}
 
 .. _namespace-formatting:
 
@@ -747,37 +747,37 @@ Lambda 運算式
 
 :ref:`命名空間 <namespaces>` 不要增加額外的縮排層次，例如：
 
+.. code-block:: c++
+
+    namespace {
+
+    void foo() {  // 正確。命名空間內沒有額外的縮排。
+      ...
+    }
+
+    }  // namespace
+
+命名空間的內容不要縮排：
+
+.. warning::
+
     .. code-block:: c++
 
         namespace {
 
-        void foo() {  // 正確。命名空間內沒有額外的縮排。
-          ...
-        }
+          // 錯！縮排多餘了。
+          void foo() {
+            ...
+          }
 
         }  // namespace
 
-命名空間的內容不要縮排：
-
-    .. warning::
-
-        .. code-block:: c++
-
-            namespace {
-
-              // 錯！縮排多餘了。
-              void foo() {
-                ...
-              }
-
-            }  // namespace
-
 宣告巢狀的命名空間時，每個命名空間都獨立成行。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        namespace foo {
-        namespace bar {
+    namespace foo {
+    namespace bar {
 
 水平空白
 ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -150,15 +150,15 @@ Reference 引數
 
     C++ 定義了兩種不同的函式宣告語法。原有的語法是將回傳值的型別放在函式的名稱前面。例如：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            int foo(int x);
+        int foo(int x);
 
     從 C++11 開始加入了新的語法：在函式名稱前面加上 ``auto`` 關鍵字，然後在引數列表之後加上後置式的回傳值型別。舉例來說，前面的函式宣告可以寫成下面的形式：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            auto foo(int x) -> int;
+        auto foo(int x) -> int;
 
     後置式的回傳值型別存在於函式作用域中。對於簡單的型別（像是 ``int``）來說，這不會有什麼不同；但面對更複雜的情況時就有差，像是在類別作用域中宣告的型別，或是依函式參數而定的型別。
 
@@ -168,17 +168,17 @@ Reference 引數
 
     有時候把回傳值的型別放在函式的參數列表之後，對程式碼閱讀者來說比較清楚。特別是當回傳值的型別依據模板參數而定時。舉例來說：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            template <typename T, typename U>
-            auto add(T t, U u) -> decltype(t + u);
+        template <typename T, typename U>
+        auto add(T t, U u) -> decltype(t + u);
 
     對照原有語法：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            template <typename T, typename U>
-            decltype(declval<T&>() + declval<U&>()) add(T t, U u);
+        template <typename T, typename U>
+        decltype(declval<T&>() + declval<U&>()) add(T t, U u);
 
 缺點：
 

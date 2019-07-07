@@ -54,7 +54,7 @@
     //    }
     //    delete iter;
     class GargantuanTable_Iterator {
-        ...
+      ...
     };
 
 類別的註解應該要提供給程式碼閱讀者足夠的資訊，了解如何使用、何時該使用這個類別，以及任何想要正常使用這個類別所需要考慮到的額外事項。如果該類別有任何同步前提 (synchronization assumptions)，請詳細說明。如果該類別的實例可被多執行緒存取，要特別註明多執行緒環境下相關的規則和常數使用。
@@ -83,25 +83,25 @@
         - 若函式使用不當是否會有性能隱憂。
         - 函式是否可以遞迴呼叫 (re-entrant)。其同步前提是什麼？
 
-    舉例如下:
+    範例如下：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            // Returns an iterator for this table.  It is the client's
-            // responsibility to delete the iterator when it is done with it,
-            // and it must not use the iterator once the GargantuanTable object
-            // on which the iterator was created has been deleted.
-            //
-            // The iterator is initially positioned at the beginning of the table.
-            //
-            // This method is equivalent to:
-            //    Iterator* iter = table->NewIterator();
-            //    iter->Seek("");
-            //    return iter;
-            // If you are going to immediately seek to another place in the
-            // returned iterator, it will be faster to use NewIterator()
-            // and avoid the extra seek.
-            Iterator* GetIterator() const;
+        // Returns an iterator for this table.  It is the client's
+        // responsibility to delete the iterator when it is done with it,
+        // and it must not use the iterator once the GargantuanTable object
+        // on which the iterator was created has been deleted.
+        //
+        // The iterator is initially positioned at the beginning of the table.
+        //
+        // This method is equivalent to:
+        //    Iterator* iter = table->NewIterator();
+        //    iter->Seek("");
+        //    return iter;
+        // If you are going to immediately seek to another place in the
+        // returned iterator, it will be faster to use NewIterator()
+        // and avoid the extra seek.
+        Iterator* GetIterator() const;
 
     但也要避免過度說明，或是為顯而易見的事實加上不必要的說明。
 
@@ -127,79 +127,79 @@
     類別中每個資料成員（也被稱為「實例變數」或「成員變數」）的目的必須非常清楚。如果有任何無法以型別或名稱清楚表達的事實（特殊的數值、成員間的關係、生命週期需求等），就必須為之加上註解。然而，若是型別和名稱所擁有的資訊已經足夠（``int num_events_;``），那就不需要額外加註解了。
 
     特別是若存在某些被拿來當成特殊狀況的數值（像是 ``nullptr`` 或是 ``-1``）而且又不是顯而易見的話，就要特別為它們加上註解。例如：
-    
-        .. code-block:: c++
 
-            private:
-              // Used to bounds-check table accesses. -1 means
-              // that we don't yet know how many entries the table has.
-              int num_total_entries_;
+    .. code-block:: c++
+
+        private:
+         // Used to bounds-check table accesses. -1 means
+         // that we don't yet know how many entries the table has.
+         int num_total_entries_;
 
 
 全域變數：
 
     所有的全域變數都要註解說明含義、用途，以及為什麼要將它宣告為全域變數（如果不夠清楚的話）。例如：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            // The total number of tests cases that we run through in this regression test.
-            const int kNumTestCases = 6;
+        // The total number of tests cases that we run through in this regression test.
+        const int kNumTestCases = 6;
 
 實作註解
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
 
-    對於程式碼中巧妙的、晦澀的、有趣的，或重要的地方加以註解。
+    對於程式碼中使用特別技巧、晦澀的、有趣的，或重要的地方加以註解。
 
 解釋用註解：
 
-    巧妙或複雜的程式碼段前要加註解。例如：
+    使用特別技巧或複雜的程式碼段前要加註解。例如：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            // Divides result by two, taking into account that x
-            // contains the carry from the add.
-            for (int i = 0; i < result->size(); i++) {
-                x = (x << 8) + (*result)[i];
-                (*result)[i] = x >> 1;
-                x &= 1;
-            }
+        // Divides result by two, taking into account that x
+        // contains the carry from the add.
+        for (int i = 0; i < result->size(); i++) {
+          x = (x << 8) + (*result)[i];
+          (*result)[i] = x >> 1;
+          x &= 1;
+        }
 
 行註解：
 
     同時，比較隱晦的地方要在行尾加入註解。在行尾加兩格空隔後開始註解。例如：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            // If we have enough memory, mmap the data portion too.
-            mmap_budget = max<int64>(0, mmap_budget - index_->length());
-            if (mmap_budget >= data_size_ && !MmapData(mmap_chunk_bytes, mlock))
-                return;  // Error already logged.
+        // If we have enough memory, mmap the data portion too.
+        mmap_budget = max<int64>(0, mmap_budget - index_->length());
+        if (mmap_budget >= data_size_ && !MmapData(mmap_chunk_bytes, mlock))
+          return;  // Error already logged.
 
     可以看到這裡用了兩段註解分別描述這段程式碼的作用，而且在函式返回時也有註解，說明錯誤已經被記入日誌。
 
     如果你需要連續進行多行註解，使之對齊可以讓可讀性更高：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            DoSomething();                  // 把註解放這裡才能和下一行對齊。
-            DoSomethingElseThatIsLonger();  // 註解和程式碼之間要有兩個空格。
-            { // 當開啟一個新的作用域時，可以只放一個空隔，
-              // 這樣接下來的註解和程式碼都可以和前面那行對齊。
-              DoSomethingElse();  // 一般來說行註解前面都需要兩個空隔。
-            }
-            std::vector<string> list{
-                                // 在條列初始化中，用來說明下一個元素的註解...
-                                "First item",
-                                // .. 必須要妥善對齊。
-                                "Second item"};
-            DoSomething(); /* 對於放在行尾的區塊式註解，可以只放一個空隔。 */
+        DoSomething();                  // 把註解放這裡才能和下一行對齊。
+        DoSomethingElseThatIsLonger();  // 註解和程式碼之間要有兩個空格。
+        { // 當開啟一個新的作用域時，可以只放一個空隔，
+          // 這樣接下來的註解和程式碼都可以和前面那行對齊。
+          DoSomethingElse();  // 一般來說行註解前面都需要兩個空隔。
+        }
+        std::vector<string> list{
+                            // 在條列初始化中，用來說明下一個元素的註解...
+                            "First item",
+                            // .. 必須要妥善對齊。
+                            "Second item"};
+        DoSomething(); /* 對於放在行尾的區塊式註解，可以只放一個空隔。 */
 
 函式引數註解：
 
     當函式的引數意義不那麼明顯時，可以考慮以下的補救措施：
-    
+
         - 如果引數是字面常數 (literal constant)，在許多函式呼叫的時候都會被引用到，而且在這些地方意義都相同時，你應該要建立一個有名稱的常數，明確地表明它的限制，且保證呼叫的時候不會給錯值。
         - 考慮改變函式傳入值的型別，把 ``bool`` 引數改成 ``enum`` 引數。如此一來引數的值就能自我描述了。
         - 如果函式有許多設定選項，可以考慮把這些選項全都包進一個類別或結構中，然後傳遞這個型別的實例。這種方法有許多的好處。選項在呼叫處就有名稱可以參考，它們代表的意義就非常清楚了。另外函式所需要的引數數量變少了，函式呼叫變得更易讀也更易寫。還有一個額外的好處就是：如果你要再加上一個新的選項，呼叫端不用特別去修改。
@@ -208,6 +208,8 @@
 
     考慮以下的範例：
 
+    .. warning::
+
         .. code-block:: c++
 
             // 這些引數代表的意義是什麼？
@@ -215,19 +217,21 @@
 
     對照組：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            ProductOptions options;
-            options.set_precision_decimals(7);
-            options.set_use_cache(ProductOptions::kDontUseCache);
-            const DecimalNumber product =
-                CalculateProduct(values, options, /*completion_callback=*/nullptr);
+        ProductOptions options;
+        options.set_precision_decimals(7);
+        options.set_use_cache(ProductOptions::kDontUseCache);
+        const DecimalNumber product =
+            CalculateProduct(values, options, /*completion_callback=*/nullptr);
 
 不要這麼做：
 
     不要陳述顯而易見的事實。特別是不要依字面去翻譯程式碼在幹嘛，除非它的行為對於熟悉 C++ 的閱讀者來說不是那麼直觀的。應該要提提供更高階的註解，來描述這段程式碼為什麼要這麼做，或是想辦法讓程式碼可以自我描述。
 
     比較這個範例：
+
+    .. warning::
 
         .. code-block:: c++
 
@@ -239,21 +243,21 @@
 
     和這個範例：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            // Process "element" unless it was already processed.
-            auto iter = std::find(v.begin(), v.end(), element);
-            if (iter != v.end()) {
-              Process(element);
-            }
+        // Process "element" unless it was already processed.
+        auto iter = std::find(v.begin(), v.end(), element);
+        if (iter != v.end()) {
+          Process(element);
+        }
 
     可以自我描述的程式碼不需要註解。上面那段程式碼若以這種方式寫成，就不需要註解了：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            if (!IsAlreadyProcessed(element)) {
-              Process(element);
-            }
+        if (!IsAlreadyProcessed(element)) {
+          Process(element);
+        }
 
 標點、拼寫和文法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,11 +279,11 @@ TODO 註解
 
 ``TODO`` 註解要使用全大寫的字串 ``TODO``，在隨後的圓括號裡寫上你的大名、郵件地址、bug ID，或其他最能說明這項 ``TODO`` 的身份標識、問題資訊等。主要目的是建立一致的 ``TODO`` 格式，讓閱讀程式的人可以依這些資訊找到更多關於這項要求的細節。``TODO`` 並不代表解決這個問題的承諾。因此建立 ``TODO`` 時所加上的名字，幾乎 100% 是建立者的名字。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        // TODO(kl@gmail.com): Use a "*" here for concatenation operator.
-        // TODO(Zeke) change this to use relations.
-        // TODO(bug 12345): remove the "Last visitors" feature
+    // TODO(kl@gmail.com): Use a "*" here for concatenation operator.
+    // TODO(Zeke) change this to use relations.
+    // TODO(bug 12345): remove the "Last visitors" feature
 
 如果加 ``TODO`` 是為了在「將來某一天做某事」，可以附上一個非常明確的時間 ("Fix by November 2005")，或者一個明確的事項 ("Remove this code when all clients can handle XML responses.")。
 

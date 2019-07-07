@@ -504,8 +504,8 @@ sizeof
 .. code-block:: c++
 
     if (raw_size < sizeof(int)) {
-        LOG(ERROR) << "compressed record not big enough for count: " << raw_size;
-        return false;
+      LOG(ERROR) << "compressed record not big enough for count: " << raw_size;
+      return false;
     }
 
 .. _auto:
@@ -529,10 +529,12 @@ auto
 
     有時候清楚地型別才會讓程式碼更乾淨，特別當變數初始化所需參考到的資訊宣告在很前面的地方時。例如下面的運算式：
 
-    .. code-block:: c++
+    .. warning::
 
-        auto foo = x.add_foo();
-        auto i = y.Find(key);
+        .. code-block:: c++
+
+            auto foo = x.add_foo();
+            auto i = y.Find(key);
 
     如果我們不知道 ``y`` 的型別，或是 ``y`` 的宣告在很多行前面時，運算結果的型別可能就不是那麼清楚。
 
@@ -644,6 +646,7 @@ C++11 中，這個語法得到進一步的推廣，任何物件型別都可以�
 千萬不要將初值列 assign 給 ``auto`` 區域變數。如果初值列中只有一個數值，其代表的意義會讓人感到困惑：
 
 .. warning::
+
     .. code-block:: c++
 
         auto d = {1.23};        // d 的型別會是 std::initializer_list<double>
@@ -670,7 +673,7 @@ Lambda 運算式
     .. code-block:: c++
 
         std::sort(v.begin(), v.end(), [](int x, int y) {
-            return Weight(x) < Weight(y);
+          return Weight(x) < Weight(y);
         });
 
     除此之外，lambda 還能從所在的作用域中取得 (capture) 變數，可以透過變數名稱進行顯式取得，或是利用預設的取得方式進行隱式取得。要進行顯式取得，必須把每個要取得的變數名稱列出來，然後再以 by-value 或是 by-reference 的方式取得。

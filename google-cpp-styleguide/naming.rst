@@ -74,21 +74,21 @@ C++ 檔案要以 ``.cc`` 結尾，標頭檔以 ``.h`` 結尾。供使用者以�
 
 所有型別命名（類別、結構、型別別名、列舉，以及模板型別參數）均使用相同規則。型別名稱的第一個字母要大寫，其後每個單字的字首字母均大寫，例如:
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        // 類別和結構
-        class UrlTable { ...
-        class UrlTableTester { ...
-        struct UrlTableProperties { ...
+    // 類別和結構
+    class UrlTable { ...
+    class UrlTableTester { ...
+    struct UrlTableProperties { ...
 
-        // typedefs
-        typedef hash_map<UrlTableProperties *, string> PropertiesMap;
+    // typedefs
+    typedef hash_map<UrlTableProperties *, string> PropertiesMap;
 
-        // using 別名
-        using PropertiesMap = hash_map<UrlTableProperties *, string>;
+    // using 別名
+    using PropertiesMap = hash_map<UrlTableProperties *, string>;
 
-        // 列舉
-        enum UrlTableErrors { ...
+    // 列舉
+    enum UrlTableErrors { ...
 
 .. _variable-names:
 
@@ -101,7 +101,7 @@ C++ 檔案要以 ``.cc`` 結尾，標頭檔以 ``.h`` 結尾。供使用者以�
 
 一般變數命名：
 
-    舉例：
+    範例：
 
     .. code-block:: c++
 
@@ -117,26 +117,26 @@ C++ 檔案要以 ``.cc`` 結尾，標頭檔以 ``.h`` 結尾。供使用者以�
 
     不管是靜態的還是非靜態，類別資料成員的命名方式和普通變數一樣，但最後要加上底線。
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            class TableInfo {
-              ...
-             private:
-              string table_name_;  // 可 - 字尾加底線。
-              string tablename_;   // 可。
-              static Pool<TableInfo>* pool_;  // 可。
-            };
+        class TableInfo {
+            ...
+            private:
+            string table_name_;  // 可 - 字尾加底線。
+            string tablename_;   // 可。
+            static Pool<TableInfo>* pool_;  // 可。
+        };
 
 結構資料成員：
 
     不管是靜態的還是非靜態，結構資料成員的命名方式和普通變數一樣。不用像類別那樣最後加底線。
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            struct UrlTableProperties {
-                string name;
-                int num_entries;
-            }
+        struct UrlTableProperties {
+            string name;
+            int num_entries;
+        }
 
     關於何時該用結構、何時該用類別的討論，請參考 :ref:`structs-vs-classes` 一節。
 
@@ -149,10 +149,10 @@ C++ 檔案要以 ``.cc`` 結尾，標頭檔以 ``.h`` 結尾。供使用者以�
 
     宣告時加上 ``constexpr`` 或 ``const``，且整個程式執行時間內都不會改變的變數，命名時需以 "k" 開頭，後面的字母以混合大小寫的方式書寫。在少數大寫字無法將單字隔開的情況下，可以使用底線當作區隔。舉例來說：
 
-        .. code-block:: c++
+    .. code-block:: c++
 
-            const int kDaysInAWeek = 7;
-            const int kAndroid8_0_0 = 24;  // Android 8.0.0
+        const int kDaysInAWeek = 7;
+        const int kAndroid8_0_0 = 24;  // Android 8.0.0
 
 所有這類的變數，若擁有靜態儲存週期（也就是靜態和全域變數，細節請參考 `靜態儲存週期 (static storage duration) <http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration>`__）的話，必須以此規則命名。其他儲存週期的變數（例如自動變數）不一定要套用這個規則，可以使用一般變數的命名原則。
 
@@ -205,18 +205,18 @@ C++ 檔案要以 ``.cc`` 結尾，標頭檔以 ``.h`` 結尾。供使用者以�
 
 單獨的列舉元應該優先採用 :ref:`常數 <constant-names>` 的命名方式。但 :ref:`巨集 <macro-names>` 方式的命名也可以接受。列舉型別 (enumeration) 像是 ``UrlTableErrors`` （以及 ``AlternateUrlTableErrors``）是型別，因此要用大小寫混合的方式命名。
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        enum UrlTableErrors {
-            kOK = 0,
-            kErrorOutOfMemory,
-            kErrorMalformedInput,
-        };
-        enum AlternateUrlTableErrors {
-            OK = 0,
-            OUT_OF_MEMORY = 1,
-            MALFORMED_INPUT = 2,
-        };
+    enum UrlTableErrors {
+        kOK = 0,
+        kErrorOutOfMemory,
+        kErrorMalformedInput,
+    };
+    enum AlternateUrlTableErrors {
+        OK = 0,
+        OUT_OF_MEMORY = 1,
+        MALFORMED_INPUT = 2,
+    };
 
 2009 年 1 月之前，我們一直建議採用 :ref:`巨集 <macro-names>` 的方式為列舉值命名。這導致列舉值和巨集之間的命名衝突問題。因此，這裡改為優先選擇常數風格的命名方式。新的程式碼應儘可能優先使用常數風格。但是原有的程式碼沒有一定要轉換到常數風格，除非巨集風格確實會在編譯時產生問題。
 
@@ -231,10 +231,10 @@ C++ 檔案要以 ``.cc`` 結尾，標頭檔以 ``.h`` 結尾。供使用者以�
 
 請參考 :ref:`巨集一節的描述 <preprocessor-macros>`；一般來說 *不應該* 使用巨集。如果不得不用，其命名應為全部大寫，並使用底線區隔單字：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        #define ROUND(x) ...
-        #define PI_ROUNDED 3.0
+    #define ROUND(x) ...
+    #define PI_ROUNDED 3.0
 
 .. _exceptions-for-naming-rules:
 

@@ -52,12 +52,14 @@
     避免使用前置宣告，直接引入需要的標頭檔即可。
 
 定義：
+
     前置宣告是不提供與之關連的定義下，宣告一個類別、函式或是模板。
 
 優點：
 
-	* 由於 ``#include`` 會強制編譯器開啟更多的檔案與處理更多的輸入，利用前置宣告減少 ``#include`` 可以減少編譯時間。
-	* 越多的 ``#include`` 代表程式碼更可能因為相依的標頭檔更動而被重新編譯，使用前置宣告可以節省不必要的重新編譯。
+    * 由於 ``#include`` 會強制編譯器開啟更多的檔案與處理更多的輸入，利用前置宣告減少 ``#include`` 可以減少編譯時間。
+
+    * 越多的 ``#include`` 代表程式碼更可能因為相依的標頭檔更動而被重新編譯，使用前置宣告可以節省不必要的重新編譯。
 
 缺點：
 
@@ -66,29 +68,28 @@
     * 前置宣告來自 ``std::`` 命名空間的 symbols 會導致未定義行為 (undefined behavior)。
     * 難以抉擇是要使用前置宣告或是引入完整的標頭檔。使用前置宣告替換掉 ``#include`` 有可能意外地修改了程式碼的意圖：
 
-        .. code-block:: c++
+      .. code-block:: c++
 
-          // b.h:
-          struct B {};
-          struct D : B {};
+        // b.h:
+        struct B {};
+        struct D : B {};
 
-          // good_user.cc:
-          #include "b.h"
-          void f(B*);
-          void f(void*);
-          void test(D* x) { f(x); }  // calls f(B*)
+        // good_user.cc:
+        #include "b.h"
+        void f(B*);
+        void f(void*);
+        void test(D* x) { f(x); }  // calls f(B*)
 
       若 ``#include`` 被替換成 B 和 D 的前置宣告，``test()`` 會呼叫到 ``f(void*)``。
 
     * 使用前置宣告多個 symbols 可能比直接引入標頭檔更冗長。
-    * 為了使用前置宣告而修改程式碼（例如：使用指標成員而不是物件成員) 可能會導致程式運作較為緩慢或是更加的複雜。
+    * 為了使用前置宣告而修改程式碼（例如：使用指標成員而不是物件成員）可能會導致程式運作較為緩慢或是更加的複雜。
 
 結論：
 
-	* 在任何狀況下避免使用前置宣告。
-	* 當在標頭檔內使用到函式宣告時，總是引入對應的標頭檔。
-	* 當使用類別模板時，建議引入對應的標頭檔。
-
+    * 在任何狀況下避免使用前置宣告。
+    * 當在標頭檔內使用到函式宣告時，總是引入對應的標頭檔。
+    * 當使用類別模板時，建議引入對應的標頭檔。
 
 至於什麼時候引入標頭檔，參見 :ref:`name-and-order-of-includes`。
 
@@ -101,19 +102,19 @@
 
     只有當函式非常的短，例如只有 10 行甚至更少的時候，才將其定義為行內函式。
 
-定義:
+定義：
 
     當函式被宣告為行內函式之後，代表你允許編譯器將其展開在該函式被呼叫的位置，而不是原來的函式呼叫機制進行。
 
-優點:
+優點：
 
     當函式主體比較小的時候，行內該函式可以產生更有效率目標程式碼 (object code)。對於存取函式 (accessors)、賦值函式 (mutators) 以及其它函式體比較短或對性能要求較高的函式，可以依據需求將其轉為行內函式。
 
-缺點:
+缺點：
 
     濫用行內函式反而會導致程式變慢。行內展開可能使目標程式碼變大或變小，這取決於行內函式主體的大小。一個非常短小的存取函式被行內展開通常會減少目標程式碼的大小，但展開一個相當大的函式將非常顯著地增加目標程式碼大小。現代的處理器 (CPU) 具備有指令快取 (instruction cache)，小巧的程式碼往往執行時間較短。
 
-結論:
+結論：
 
     一個較為合理的經驗準則是，不要將超過 10 行的函式寫成行內函式。謹慎對待解構式。解構式的執行時間往往比表面看起來更長，因為還需要呼叫隱式成員和父類別的解構式！
 
@@ -131,11 +132,11 @@
 
 專案內的標頭檔應按照專案目錄樹結構排列，避免使用 UNIX 特殊的目錄捷徑 ``.`` (當前目錄) 或 ``..`` (上層目錄)。例如：
 
-``google-awesome-project/src/base/logging.h`` 應該按如下方式引入:
+``google-awesome-project/src/base/logging.h`` 應該按如下方式引入：
 
-    .. code-block:: c++
+.. code-block:: c++
 
-        #include "base/logging.h"
+    #include "base/logging.h"
 
 另一個例子是，若 ``dir/foo.cc`` 或 ``dir/foo_test.cc`` 的主要作用是實作或測試 ``dir2/foo2.h`` 的功能，``foo.cc`` 中引入標頭檔的次序應如下：
 
@@ -161,29 +162,29 @@ C 的相容性標頭檔（例如 ``stddef.h``）基本上都能換成 C++ 所提
 
 舉例來說，``google-awesome-project/src/foo/internal/fooserver.cc`` 的引入順序如下：
 
-	.. code-block:: c++
+.. code-block:: c++
 
-		#include "foo/public/fooserver.h"
+    #include "foo/public/fooserver.h"
 
-		#include <sys/types.h>
-		#include <unistd.h>
-		#include <vector>
+    #include <sys/types.h>
+    #include <unistd.h>
+    #include <vector>
 
-		#include "base/basictypes.h"
-		#include "base/commandlineflags.h"
-		#include "foo/public/bar.h"
+    #include "base/basictypes.h"
+    #include "base/commandlineflags.h"
+    #include "foo/public/bar.h"
 
 例外：
 
     有時，系統專屬（system-specific）的程式碼需要依據條件被引入。這種情況下，這些部份可以放到其它的 ``#includes`` 之後。當然，儘量讓你的系統專屬程式碼小且集中，例如：
 
-	  .. code-block:: c++
+    .. code-block:: c++
 
-		#include "foo/public/fooserver.h"
+        #include "foo/public/fooserver.h"
 
-		#include "base/port.h"  // For LANG_CXX11.
+        #include "base/port.h"  // For LANG_CXX11.
 
-		#ifdef LANG_CXX11
-		#include <initializer_list>
-		#endif  // LANG_CXX11
+        #ifdef LANG_CXX11
+        #include <initializer_list>
+        #endif  // LANG_CXX11
 
