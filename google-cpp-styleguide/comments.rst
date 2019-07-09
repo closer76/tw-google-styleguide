@@ -208,12 +208,11 @@
 
     考慮以下的範例：
 
-    .. warning::
+    .. rst-class:: bad-code
+    .. code-block:: c++
 
-        .. code-block:: c++
-
-            // 這些引數代表的意義是什麼？
-            const DecimalNumber product = CalculateProduct(values, 7, false, nullptr);
+        // 這些引數代表的意義是什麼？
+        const DecimalNumber product = CalculateProduct(values, 7, false, nullptr);
 
     對照組：
 
@@ -231,15 +230,14 @@
 
     比較這個範例：
 
-    .. warning::
+    .. rst-class:: bad-code
+    .. code-block:: c++
 
-        .. code-block:: c++
-
-            // Find the element in the vector.  <-- 不好：不用說也知道！
-            auto iter = std::find(v.begin(), v.end(), element);
-            if (iter != v.end()) {
-              Process(element);
-            }
+        // Find the element in the vector.  <-- 不好：不用說也知道！
+        auto iter = std::find(v.begin(), v.end(), element);
+        if (iter != v.end()) {
+          Process(element);
+        }
 
     和這個範例：
 

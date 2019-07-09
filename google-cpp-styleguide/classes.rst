@@ -60,11 +60,10 @@
 
         void Func(Foo f);
 
-    .. warning::
+    .. rst-class:: bad-code
+    .. code-block:: c++
 
-        .. code-block:: c++
-
-            Func({42, 3.14});  // 錯誤
+        Func({42, 3.14});  // 錯誤
 
     這種程式碼在技術上來說並不是隱式轉換，但只要 ``explicit`` 存在，編譯器就會將之視為隱式轉換。
 

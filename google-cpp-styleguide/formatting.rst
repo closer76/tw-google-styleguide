@@ -159,12 +159,11 @@
 
     void Circle::Rotate(double /*radians*/) {}
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        // 不好 - 如果將來有人要實作，很難猜出變數是幹什麼用的。
-        void Circle::Rotate(double) {}
+    // 不好 - 如果將來有人要實作，很難猜出變數是幹什麼用的。
+    void Circle::Rotate(double) {}
 
 屬性、以及會展開成屬性的巨集，要放在函式宣告或定義的最前面，比回傳型別更前面：
 
@@ -336,13 +335,12 @@ Lambda 運算式
 
 注意在所有情況下，``if`` 和左括號間都有個空格。如果有大括號的話，右括號和左大括號之間也要有個空格：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        if(condition)     // 差 - IF 後面沒空格。
-        if (condition){   // 差 - { 前面沒空格。
-        if(condition){    // 前面兩項錯誤犯好犯滿。
+    if(condition)     // 差 - IF 後面沒空格。
+    if (condition){   // 差 - { 前面沒空格。
+    if(condition){    // 前面兩項錯誤犯好犯滿。
 
 .. code-block:: c++
 
@@ -357,13 +355,12 @@ Lambda 運算式
 
 如果述句中有 ``else`` 的話就禁止如此使用：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        // 不可以這樣子 - 當 ELSE 子句存在時，IF 陳述句卻只擠在同一行
-        if (x) DoThis();
-        else DoThat();
+    // 不可以這樣子 - 當 ELSE 子句存在時，IF 陳述句卻只擠在同一行
+    if (x) DoThis();
+    else DoThat();
 
 一般來說，單行語句不需要使用大括號，如果你喜歡用也沒問題；複雜的條件式或迴圈，使用大括號的話可讀性較佳。也有些專案要求 ``if`` 必須一定要跟著使用大括號：
 
@@ -378,22 +375,21 @@ Lambda 運算式
 
 但如果整個述句中某個 ``if``-``else`` 的區塊使用了大括號的話，其它區塊也必須使用：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
+    // 不可以這樣子 - IF 有大括號 ELSE 卻沒有。
+    if (condition) {
+      foo;
+    } else
+      bar;
 
-        // 不可以這樣子 - IF 有大括號 ELSE 卻沒有。
-        if (condition) {
-          foo;
-        } else
-          bar;
-
-        // 不可以這樣子 - ELSE 有大括號 IF 卻沒有。
-        if (condition)
-          foo;
-        else {
-          bar;
-        }
+    // 不可以這樣子 - ELSE 有大括號 IF 卻沒有。
+    if (condition)
+      foo;
+    else {
+      bar;
+    }
 
 
 .. code-block:: c++
@@ -477,11 +473,10 @@ Lambda 運算式
     for (int i = 0; i < kSomeNumber; ++i) {}  // 可 - 寫在同一行也沒有問題。
     while (condition) continue;  // 可 - contunue 表明沒有邏輯運算。
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        while (condition);  // 不好 - 看起來像是 while/loop 的一部分。
+    while (condition);  // 不好 - 看起來像是 while/loop 的一部分。
 
 .. _pointer-and-reference-expressions:
 
@@ -527,13 +522,12 @@ Lambda 運算式
     // 如果對可讀性有幫助就沒問題。
     int x, y;
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        int x, *y;  // 禁止 - 多個變數的宣告式中不得有 & 或 *
-        char * c;  // 不好 - 星號前後都有空格
-        const string & str;  // 不好 - & 前後都有空格
+    int x, *y;  // 禁止 - 多個變數的宣告式中不得有 & 或 *
+    char * c;  // 不好 - 星號前後都有空格
+    const string & str;  // 不好 - & 前後都有空格
 
 .. _boolean-expressions:
 
@@ -574,12 +568,11 @@ Lambda 運算式
     return (some_long_condition &&
             another_condition);
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        return (value);                // 你不會寫 var = (value);
-        return(result);                // return 不是一個函式！
+    return (value);                // 你不會寫 var = (value);
+    return(result);                // return 不是一個函式！
 
 .. _variable-and-array-initialization:
 
@@ -639,17 +632,16 @@ Lambda 運算式
         BackToNormal();
       }
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        // 不可 - 讓指令縮排
-          if (lopsided_score) {
-            #if DISASTER_PENDING  // 錯了！ "#if" 應該放在行開頭
-            DropEverything();
-            #endif                // 錯了！ "#endif" 不要縮排
-            BackToNormal();
-          }
+    // 不可 - 讓指令縮排
+      if (lopsided_score) {
+        #if DISASTER_PENDING  // 錯了！ "#if" 應該放在行開頭
+        DropEverything();
+        #endif                // 錯了！ "#endif" 不要縮排
+        BackToNormal();
+      }
 
 .. _class-format:
 
@@ -759,18 +751,17 @@ Lambda 運算式
 
 命名空間的內容不要縮排：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
+    namespace {
 
-        namespace {
+      // 錯！縮排多餘了。
+      void foo() {
+        ...
+      }
 
-          // 錯！縮排多餘了。
-          void foo() {
-            ...
-          }
-
-        }  // namespace
+    }  // namespace
 
 宣告巢狀的命名空間時，每個命名空間都獨立成行。
 
