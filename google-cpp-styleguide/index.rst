@@ -9,10 +9,12 @@ C++ 風格指南 - 內容目錄
     :backlinks: none
 
 .. toctree::
+   zh_readme
+
+.. toctree::
    :numbered:
    :maxdepth: 2
 
-   zh_readme
    background
    version
    headers

@@ -97,12 +97,11 @@
 
     * 不要使用 using 指令 (using-directive) 讓一個命名空間下的所有名稱都可以使用。
 
-      .. warning::
+      .. rst-class:: bad-code
+      .. code-block:: c++
 
-        .. code-block:: c++
-
-            // 禁止 —— 這會污染命名空間
-            using namespace foo;
+        // 禁止 —— 這會污染命名空間
+        using namespace foo;
 
     * 不要在標頭檔的命名空間作用域中使用 *命名空間別名* （除非是僅在內部使用且有明確標示的命名空間），因為在標頭檔內的命名空間中匯入的任何東西，都會變成這個檔案所匯出的公開 API 的一部份。
 
@@ -183,24 +182,22 @@
 
 C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小的作用域中宣告變數，並且離第一次使用的地方越近越好。這會讓閱讀者更容易找到變數宣告的位置、宣告的類型和初始值。要注意，應該在宣告時直接初始化變數，而不要先宣告後再賦值, 例如：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        int i;
-        i = f(); // 不推薦 -- 初始化和宣告分離
+    int i;
+    i = f(); // 不推薦 -- 初始化和宣告分離
 
 .. code-block:: c++
 
     int j = g(); // 推薦 -- 宣告時初始化
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        std::vector<int> v;
-        v.push_back(1); // 建議使用 {} 初始化法語法
-        v.push_back(2);
+    std::vector<int> v;
+    v.push_back(1); // 建議使用 {} 初始化法語法
+    v.push_back(2);
 
 .. code-block:: c++
 
@@ -214,15 +211,14 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
 
 一個特例：如果變數是一個物件，每次進入作用域時其建構式都會被呼叫，每次離開作用域時其解構式都會被呼叫。
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        // 沒效率的實作
-        for (int i = 0; i < 1000000; ++i) {
-          Foo f; // 建構式和解構式分別呼叫 1000000 次。
-          f.DoSomething(i);
-        }
+    // 沒效率的實作
+    for (int i = 0; i < 1000000; ++i) {
+      Foo f; // 建構式和解構式分別呼叫 1000000 次。
+      f.DoSomething(i);
+    }
 
 在迴圈作用域外面宣告這類型的變數可能更加的有效率。
 
@@ -279,21 +275,20 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
             // 可以：constexpr 確保一定是 trivially destructible
             constexpr std::array<int, 3> kArray = {{1, 2, 3}};
 
-        .. warning::
+        .. rst-class:: bad-code
+        .. code-block:: c++
 
-            .. code-block:: c++
+            // 不好：解構式非 trivial
+            const string kFoo = "foo";
 
-                // 不好：解構式非 trivial
-                const string kFoo = "foo";
+            // 不好。理由同上，即使 kBar 是一個 reference。
+            // （這項規則同樣適用於生命週期被延長的暫存物件）
+            const string& kBar = StrCat("a", "b", "c");
 
-                // 不好。理由同上，即使 kBar 是一個 reference。
-                // （這項規則同樣適用於生命週期被延長的暫存物件）
-                const string& kBar = StrCat("a", "b", "c");
-
-                void bar() {
-                  // 不好：解構式非 trivial
-                  static std::map<int, int> kData = {{1, 0}, {2, 0}, {3, 0}};
-                }
+            void bar() {
+              // 不好：解構式非 trivial
+              static std::map<int, int> kData = {{1, 0}, {2, 0}, {3, 0}};
+            }
 
         請注意 reference 不是物件，因此它們沒有解構性質的限制。不過動態初始化的限制仍在。尤其是以 ``static T& t = *new T;`` 這樣的型式在函式內宣告的靜態區域 reference，是沒有問題的。
 
@@ -324,19 +319,18 @@ C++ 允許在函式內的任何位置宣告變數。我們鼓勵在儘可能小�
 
         相對來說，下列的初始化都是有問題的：
 
-        .. warning::
+        .. rst-class:: bad-code
+        .. code-block:: c++
 
-            .. code-block:: c++
+            // 以下是一些定義。
+            time_t time(time_t*);      // 不是 constexpr！
+            int f();                   // 不是 constexpr！
+            struct Bar { Bar() {} };
 
-                // 以下是一些定義。
-                time_t time(time_t*);      // 不是 constexpr！
-                int f();                   // 不是 constexpr！
-                struct Bar { Bar() {} };
-
-                // 有問題的初始化用法
-                time_t m = time(nullptr);  // 用來初始化的運算式不是常數運算式
-                Foo y(f());                // 同上
-                Bar b;                     // 選用的建構式 Bar::Bar() 沒有 constexpr 修飾
+            // 有問題的初始化用法
+            time_t m = time(nullptr);  // 用來初始化的運算式不是常數運算式
+            Foo y(f());                // 同上
+            Bar b;                     // 選用的建構式 Bar::Bar() 沒有 constexpr 修飾
 
         請儘量不要對非區域變數進行動態初始化；在一般情況下是完全禁止的。然而，若是程式中沒有任何其他的初始化過程與該項初始化有依存關係的話，那麼我們允許這麼做。在這樣的限制下，該項初始化的先後順序並不重要。例如：
 

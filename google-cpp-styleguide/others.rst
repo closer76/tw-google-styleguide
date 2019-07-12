@@ -184,16 +184,15 @@ Friends 擴大了（但沒有打破）類別的封裝範圍。某些情況下，
 
     以型別作為條件的判斷式是一項很強烈的指標，說明你的程式碼已經偏離正軌了。
 
-    .. warning::
+    .. rst-class:: bad-code
+    .. code-block:: c++
 
-        .. code-block:: c++
-
-            if (typeid(*data) == typeid(D1)) {
-              ...
-            } else if (typeid(*data) == typeid(D2)) {
-              ...
-            } else if (typeid(*data) == typeid(D3)) {
-            ...
+        if (typeid(*data) == typeid(D1)) {
+          ...
+        } else if (typeid(*data) == typeid(D2)) {
+          ...
+        } else if (typeid(*data) == typeid(D3)) {
+        ...
 
     一旦在類別階層加入新的子類別，這樣的程式碼往往會出問題。而且，一旦某個子類別的屬性改變了，你很難找到並修改所有受影響的程式碼。
 
@@ -436,18 +435,17 @@ Friends 擴大了（但沒有打破）類別的封裝範圍。某些情況下，
 
 如果你拿巨集來產生 C++ API 的定義的話，那巨集所帶來的問題會更加嚴重。若是開發人員使用這些界面的方式有誤，那麼他必須要了解這些巨集是如何產生界面的，才能看懂編譯器丟出來的錯誤訊息。重構以及分析工具在更新這些界面時所需的時間也會大幅增加。因此，我們要特別指出：禁止使用巨集產生 C++ API 的定義。例如，避免產生類似這樣的程式碼：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
+    class WOMBAT_TYPE(Foo) {
+      // ...
 
-        class WOMBAT_TYPE(Foo) {
-          // ...
+     public:
+      EXPAND_PUBLIC_WOMBAT_API(Foo)
 
-         public:
-          EXPAND_PUBLIC_WOMBAT_API(Foo)
-
-          EXPAND_WOMBAT_COMPARISONS(Foo, ==, <)
-        };
+      EXPAND_WOMBAT_COMPARISONS(Foo, ==, <)
+    };
 
 幸好，C++ 和 C 語言不同，巨集並不是不可或缺的。與其用巨集將需要執行效率的程式碼在行內展開，不如使用 inline 函式。不要用巨集存放常數，改用 ``const`` 變數。不要用巨集「縮寫」名稱過長的變數，改用 reference。不要用巨集進行條件編譯，改用... 唔，請完全不要這麼做（當然防止標頭檔被重覆引入的 ``#define`` 保護是個例外）。這麼做會讓除錯變得非常困難。
 
@@ -496,10 +494,10 @@ sizeof
     Struct data;
     Struct data; memset(&data, 0, sizeof(data));
 
-.. warning::
-    .. code-block:: c++
+.. rst-class:: bad-code
+.. code-block:: c++
 
-        memset(&data, 0, sizeof(Struct));
+    memset(&data, 0, sizeof(Struct));
 
 .. code-block:: c++
 
@@ -529,12 +527,11 @@ auto
 
     有時候清楚地型別才會讓程式碼更乾淨，特別當變數初始化所需參考到的資訊宣告在很前面的地方時。例如下面的運算式：
 
-    .. warning::
+    .. rst-class:: bad-code
+    .. code-block:: c++
 
-        .. code-block:: c++
-
-            auto foo = x.add_foo();
-            auto i = y.Find(key);
+        auto foo = x.add_foo();
+        auto i = y.Find(key);
 
     如果我們不知道 ``y`` 的型別，或是 ``y`` 的宣告在很多行前面時，運算結果的型別可能就不是那麼清楚。
 
@@ -645,11 +642,10 @@ C++11 中，這個語法得到進一步的推廣，任何物件型別都可以�
 
 千萬不要將初值列 assign 給 ``auto`` 區域變數。如果初值列中只有一個數值，其代表的意義會讓人感到困惑：
 
-.. warning::
+.. rst-class:: bad-code
+.. code-block:: c++
 
-    .. code-block:: c++
-
-        auto d = {1.23};        // d 的型別會是 std::initializer_list<double>
+    auto d = {1.23};        // d 的型別會是 std::initializer_list<double>
 
 .. code-block:: c++
 
@@ -723,21 +719,20 @@ Lambda 運算式
 
     * 如果 lambda 會脫離目前的作用域的話，儘量使用顯示取得。舉例來說，不要這樣寫：
 
-      .. warning::
+      .. rst-class:: bad-code
+      .. code-block:: c++
 
-          .. code-block:: c++
-
-            {
-              Foo foo;
-              ...
-              executor->Schedule([&] { Frobnicate(foo); })
-              ...
-            }
-            // 不良示範！
-            // 如果閱讀程式者只有匆匆瞄過去的話，很難知道這個 lambda 有用到 `foo`，
-            // 而且還可能用到 `this`（如果 `Frobnicate` 是成員函式的話）。
-            // 如果在這個函式回傳後，這個 lambda 又被呼叫的話，事情會變得很麻煩，
-            // 因為很可能 `foo` 和整個物件都已經被消滅了。
+        {
+          Foo foo;
+          ...
+          executor->Schedule([&] { Frobnicate(foo); })
+          ...
+        }
+        // 不良示範！
+        // 如果閱讀程式者只有匆匆瞄過去的話，很難知道這個 lambda 有用到 `foo`，
+        // 而且還可能用到 `this`（如果 `Frobnicate` 是成員函式的話）。
+        // 如果在這個函式回傳後，這個 lambda 又被呼叫的話，事情會變得很麻煩，
+        // 因為很可能 `foo` 和整個物件都已經被消滅了。
 
       改用這樣的寫法：
 
@@ -1019,17 +1014,16 @@ C++11
 
     這些別名沒有明確的註解說明該怎麼用，而且其中有一半不是給客戶端程式使用的：
 
-    .. warning::
+    .. rst-class:: bad-code
+    .. code-block:: c++
 
-        .. code-block:: c++
-
-            namespace mynamespace {
-            // 不好：沒有說明應該要怎麼用。
-            using DataPoint = foo::Bar*;
-            using std::unordered_set;  // 不好：只是為了方便在區域內使用的別名
-            using std::hash;           // 不好：只是為了方便在區域內使用的別名
-            typedef unordered_set<DataPoint, hash<DataPoint>, DataPointComparator> TimeSeries;
-            }  // namespace mynamespace
+        namespace mynamespace {
+        // 不好：沒有說明應該要怎麼用。
+        using DataPoint = foo::Bar*;
+        using std::unordered_set;  // 不好：只是為了方便在區域內使用的別名
+        using std::hash;           // 不好：只是為了方便在區域內使用的別名
+        typedef unordered_set<DataPoint, hash<DataPoint>, DataPointComparator> TimeSeries;
+        }  // namespace mynamespace
 
     不過在函式定義內、類別的 ``private`` 區間、明確標明的內部使用命名空間，和 .cc 檔案中，為了方便，使用區域別名是沒有問題的：
 
