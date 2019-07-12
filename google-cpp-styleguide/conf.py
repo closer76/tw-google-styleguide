@@ -47,3 +47,6 @@ context = {
 }
 
 html_context = context
+
+html_static_path = ['../_static/css']
+html_css_files = ['custom.css']
